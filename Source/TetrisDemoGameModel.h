@@ -1,19 +1,26 @@
 /*
- *  GameModel.h
+ *  TetrisDemoGameModel.h
  *
- *  Generic game object.
+ *  Game object for a Tetris in Cocos2D demo.
  *
  *  Created by Martin Grider
  */
 // - ------------------------------------------------------------------------------------------ - //
-#ifndef __GameModel_H__
-#define __GameModel_H__
+#ifndef __TetrisDemoGameModel_H__
+#define __TetrisDemoGameModel_H__
 // - ------------------------------------------------------------------------------------------ - //
 
 #include <string>
 
 
-class GameModel {
+typedef enum {
+	GAME_MODE_NORMAL,
+	GAME_MODE_EASY,
+	GAME_MODE_HARD,
+} GameMode;
+
+
+class TetrisDemoGameModel {
 
 	// properties
 	public:
@@ -27,13 +34,17 @@ class GameModel {
 	// methods
 	public:
 
-		GameModel( );		//constructor	
-		~GameModel( );		//destructor
+		TetrisDemoGameModel( );		//constructor	
+		~TetrisDemoGameModel( );		//destructor
 
 		void work();
 		void start_game( );
 		void pause_game( );
 		void unpause_game( );
+
+		// getters and setters
+		void set_game_mode( GameMode mode );
+		void set_game_difficulty( GameMode difficulty );
 
 	private:
 
@@ -41,5 +52,5 @@ class GameModel {
 
 
 // -------------------------------------------------------------------------- //
-#endif // __GameModel_H__ //
+#endif // __TetrisDemoGameModel_H__ //
 // -------------------------------------------------------------------------- //

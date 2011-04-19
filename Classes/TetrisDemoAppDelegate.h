@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+
 @class RootViewController;
 
-@interface TetrisDemoAppDelegate : NSObject <UIApplicationDelegate> {
+
+@interface TetrisDemoAppDelegate : NSObject <UIApplicationDelegate>
+{
 	UIWindow			*window;
 	RootViewController	*viewController;
 }
 
+
 @property (nonatomic, retain) UIWindow *window;
+
 
 @end

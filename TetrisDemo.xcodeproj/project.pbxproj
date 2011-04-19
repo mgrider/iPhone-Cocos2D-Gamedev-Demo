@@ -65,8 +65,7 @@
 		50F414F01069373D002A0D5E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F414EC1069373D002A0D5E /* Default.png */; };
 		50F414F11069373D002A0D5E /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F414ED1069373D002A0D5E /* fps_images.png */; };
 		50F414F21069373D002A0D5E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F414EE1069373D002A0D5E /* Icon.png */; };
-		85ACA2CE133E5A10009C2910 /* GameModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85ACA2CC133E5A10009C2910 /* GameModel.cpp */; };
-		85ACA32A133E9CAD009C2910 /* TetrisDemoGameModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 85ACA328133E9CAD009C2910 /* TetrisDemoGameModel.cpp */; };
+		85A6E0571355548100107841 /* TetrisDemoGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A6E0561355548100107841 /* TetrisDemoGameModel.m */; };
 		DC6640030F83B3EA000B3E49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */; };
 		DC6640050F83B3EA000B3E49 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640040F83B3EA000B3E49 /* OpenAL.framework */; };
 		DCCBF1B70F6022AE0040855A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */; };
@@ -261,7 +260,7 @@
 
 /* Begin PBXFileReference section */
 		1D6058910D05DD3D006BFB54 /* TetrisDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TetrisDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F3B9A2B0EF2145700286867 /* TetrisDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TetrisDemoAppDelegate.m; path = Classes/TetrisDemoAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		1F3B9A2B0EF2145700286867 /* TetrisDemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TetrisDemoAppDelegate.m; sourceTree = "<group>"; };
 		1F3B9A2C0EF2145700286867 /* TetrisDemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TetrisDemoAppDelegate.h; path = Classes/TetrisDemoAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		1F3B9A820EF2151B00286867 /* TetrisDemo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemo_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -318,10 +317,8 @@
 		50F414ED1069373D002A0D5E /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fps_images.png; sourceTree = "<group>"; };
 		50F414EE1069373D002A0D5E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		50F414EF1069373D002A0D5E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85ACA2CC133E5A10009C2910 /* GameModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameModel.cpp; sourceTree = "<group>"; };
-		85ACA2CD133E5A10009C2910 /* GameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameModel.h; sourceTree = "<group>"; };
-		85ACA328133E9CAD009C2910 /* TetrisDemoGameModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TetrisDemoGameModel.cpp; sourceTree = "<group>"; };
-		85ACA329133E9CAD009C2910 /* TetrisDemoGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemoGameModel.h; sourceTree = "<group>"; };
+		85A6E0551355548100107841 /* TetrisDemoGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemoGameModel.h; sourceTree = "<group>"; };
+		85A6E0561355548100107841 /* TetrisDemoGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TetrisDemoGameModel.m; sourceTree = "<group>"; };
 		DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DC6640040F83B3EA000B3E49 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -554,7 +551,6 @@
 			isa = PBXGroup;
 			children = (
 				2D500B1D0D5A766B00DBA0E3 /* Classes */,
-				85ACA2CB133E5A10009C2910 /* Source */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				50F414EB1069373D002A0D5E /* Resources */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -593,12 +589,14 @@
 			isa = PBXGroup;
 			children = (
 				E0F80F5D120A0182005866B8 /* GameConfig.h */,
-				506EDC2F102F528A00A389B3 /* TetrisDemoLayer.h */,
-				506EDC30102F528A00A389B3 /* TetrisDemoLayer.m */,
 				E0F80F5E120A0182005866B8 /* RootViewController.h */,
 				E0F80F5F120A0182005866B8 /* RootViewController.m */,
 				1F3B9A2C0EF2145700286867 /* TetrisDemoAppDelegate.h */,
 				1F3B9A2B0EF2145700286867 /* TetrisDemoAppDelegate.m */,
+				85A6E0551355548100107841 /* TetrisDemoGameModel.h */,
+				85A6E0561355548100107841 /* TetrisDemoGameModel.m */,
+				506EDC2F102F528A00A389B3 /* TetrisDemoLayer.h */,
+				506EDC30102F528A00A389B3 /* TetrisDemoLayer.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -722,17 +720,6 @@
 				50F414EF1069373D002A0D5E /* Info.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		85ACA2CB133E5A10009C2910 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				85ACA2CD133E5A10009C2910 /* GameModel.h */,
-				85ACA2CC133E5A10009C2910 /* GameModel.cpp */,
-				85ACA328133E9CAD009C2910 /* TetrisDemoGameModel.cpp */,
-				85ACA329133E9CAD009C2910 /* TetrisDemoGameModel.h */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		E02BB764126CC223006E46A2 /* cocos2d */ = {
@@ -1153,8 +1140,7 @@
 				1F3B9A2D0EF2145700286867 /* TetrisDemoAppDelegate.m in Sources */,
 				506EDC31102F528A00A389B3 /* TetrisDemoLayer.m in Sources */,
 				E0F80F60120A0182005866B8 /* RootViewController.m in Sources */,
-				85ACA2CE133E5A10009C2910 /* GameModel.cpp in Sources */,
-				85ACA32A133E9CAD009C2910 /* TetrisDemoGameModel.cpp in Sources */,
+				85A6E0571355548100107841 /* TetrisDemoGameModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

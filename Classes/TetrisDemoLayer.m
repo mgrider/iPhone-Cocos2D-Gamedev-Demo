@@ -17,7 +17,7 @@
 #pragma mark work is called every frame
 
 - (void) nextFrame:(ccTime)dt {
-	CCLabelTTF *label = [self getChildByTag:1000];
+	CCLabelTTF *label = (CCLabelTTF*)[self getChildByTag:1000];
 	switch (arc4random()%4) {
 		case 0:
 			label.position = ccp( label.position.x+1, label.position.y );
@@ -74,6 +74,9 @@
 		
 		// add the label as a child to this Layer
 		[self addChild: label];
+
+		// init the game object
+		gameModel = [[TetrisDemoGameModel alloc] init];
 
 		// schedule a repeating callback on every frame
         [self schedule:@selector(nextFrame:)];

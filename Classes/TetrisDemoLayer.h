@@ -10,12 +10,19 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
+
+#include "TetrisDemoGameModel.h"
+
+
 // TetrisDemoLayer
 @interface TetrisDemoLayer : CCLayer
 {
+	TetrisDemoGameModel *gameModel;
 }
+
 
 // returns a CCScene that contains the TetrisDemoLayer as the only child
 +(CCScene *) scene;
+
 
 @end

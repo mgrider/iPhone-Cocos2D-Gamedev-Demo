@@ -1,0 +1,99 @@
+//
+//  TetrisDemoGameModel.h
+//  TetrisDemo
+//
+//  Created by Martin Grider on 4/12/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+
+typedef enum {
+	PIECE_TYPE_I,
+	PIECE_TYPE_J,
+	PIECE_TYPE_L,
+	PIECE_TYPE_SQUARE,
+	PIECE_TYPE_S,
+	PIECE_TYPE_Z,
+	PIECE_TYPE_T
+} PieceType;
+
+struct PieceCoord {
+	int ax;
+	int ay;
+	int bx;
+	int by;
+	int cx;
+	int cy;
+	int dx;
+	int dy;
+};
+typedef struct PieceCoord PieceCoord;
+CG_INLINE PieceCoord
+PieceCoordMake(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy)
+{
+	PieceCoord p; 
+	p.ax = ax; p.ay = ay; 
+	p.bx = bx; p.by = by;
+	p.cx = cx; p.cy = cy;
+	p.dx = dx; p.dy = dy;
+	return p;
+}
+
+
+@interface TetrisDemoGameModel : NSObject
+{
+
+	BOOL is_paused;
+	BOOL is_game_over;
+
+	int framecount;
+	int level;
+	int speed;
+	int basespeed;
+	int score;
+	int piececount;
+	int rotatedcount;
+	PieceType piecetype;
+	PieceType nextpiecetype;
+
+	// setting up the size of the game board
+	int total_rows;
+	int total_columns;
+	// size of each "square" in pixels
+	int unitsize;
+
+	// keeping track of the current piece's coordinates
+	PieceCoord currentpiece;
+
+	// keeping track of "units" (squares)
+	NSMutableArray *unitmap;
+}
+
+
+@property (nonatomic) BOOL is_paused;
+@property (nonatomic) BOOL is_game_over;
+@property (nonatomic) int framecount;
+@property (nonatomic) int level;
+@property (nonatomic) int speed;
+@property (nonatomic) int basespeed;
+@property (nonatomic) int score;
+@property (nonatomic) int piececount;
+@property (nonatomic) int rotatedcount;
+@property (nonatomic) PieceType piecetype;
+@property (nonatomic) PieceType nextpiecetype;
+@property (nonatomic) int total_rows;
+@property (nonatomic) int total_columns;
+@property (nonatomic) int unitsize;
+@property (nonatomic) PieceCoord currentpiece;
+@property (nonatomic, retain) NSMutableArray *unitmap;
+
+
+- (void)startNewGame;
+- (void)initNextPiece;
+- (void)newPiece;
+- (void)work;
+
+
+@end

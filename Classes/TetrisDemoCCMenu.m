@@ -22,7 +22,8 @@
 															  target:self selector:@selector(openHelloWorld)];
 		CCMenu *menu = [CCMenu menuWithItems:helloWorld, nil];
 		menu.position = ccp(44, 440);
-		[self addChild:menu z:2];	}
+		[self addChild:menu z:2];
+	}
 }
 
 
@@ -39,13 +40,13 @@
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
-	
+
 	// 'layer' is an autorelease object.
 	TetrisDemoCCMenu *layer = [TetrisDemoCCMenu node];
-	
+
 	// add layer as a child to scene
 	[scene addChild:layer];
-	
+
 	// return the scene
 	return scene;
 }

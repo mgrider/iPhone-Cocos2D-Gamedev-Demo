@@ -11,7 +11,9 @@
 #import "TetrisDemoAppDelegate.h"
 #import "GameConfig.h"
 #import "TetrisDemoLayer.h"
+#import "TetrisDemoCCMenu.h"
 #import "RootViewController.h"
+
 
 @implementation TetrisDemoAppDelegate
 
@@ -110,7 +112,7 @@
 	[self removeStartupFlicker];
 	
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene:[TetrisDemoLayer scene]];
+	[[CCDirector sharedDirector] runWithScene:[TetrisDemoCCMenu scene]];
 }
 
 

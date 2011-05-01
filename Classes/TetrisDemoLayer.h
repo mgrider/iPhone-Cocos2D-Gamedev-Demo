@@ -24,5 +24,7 @@
 // returns a CCScene that contains the TetrisDemoLayer as the only child
 +(CCScene *) scene;
 
+-(void)startGame;
+
 
 @end

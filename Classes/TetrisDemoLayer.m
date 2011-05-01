@@ -10,6 +10,11 @@
 // Import the interfaces
 #import "TetrisDemoLayer.h"
 
+
+#define LEVEL_LABEL_TAG 1000
+#define SCORE_LABEL_TAG 2000
+
+
 // TetrisDemoLayer implementation
 @implementation TetrisDemoLayer
 
@@ -34,6 +39,8 @@
 		default:
 			break;
 	}
+	
+	
 }
 
 
@@ -55,28 +62,28 @@
 	return scene;
 }
 
+-(void)startGame
+{
+}
+
 // on "init" you need to initialize your instance
 -(id) init
 {
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
-		
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-		[label setTag:1000];
 
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-	
-		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
-		
-		// add the label as a child to this Layer
-		[self addChild: label];
+
+		// create and initialize a Label
+		CCLabelTTF *levelLabel = [CCLabelTTF labelWithString:@"Level" fontName:@"Courier" fontSize:14];
+		levelLabel.position = ccp( 10, size.height - 20);
+		[self addChild:levelLabel];
 
 		// init the game object
 		gameModel = [[TetrisDemoGameModel alloc] init];
+		[gameModel startNewGame];
 
 		// schedule a repeating callback on every frame
         [self schedule:@selector(nextFrame:)];

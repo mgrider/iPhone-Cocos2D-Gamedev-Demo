@@ -13,7 +13,7 @@
 
 
 @synthesize is_paused, is_game_over, framecount, level, speed, basespeed;
-@synthesize score, piececount, rotatedcount, piecetype, nextpiecetype;
+@synthesize score, piececount, rotatedcount, capturedrowcount, piecetype, nextpiecetype;
 @synthesize total_rows, total_columns, unitsize;
 @synthesize currentpiece, unitmap;
 
@@ -35,8 +35,13 @@
 	
 	unitmap = [NSMutableArray arrayWithCapacity:total_rows];
 	for ( int i=0; i < total_rows; i++ ) {
-		[unitmap insertObject:[NSMutableArray arrayWithCapacity:total_columns] atIndex:i];
+		NSMutableArray *unitArray = [NSMutableArray arrayWithCapacity:total_columns];
+		for (int j=0; j<total_columns; j++) {
+			[unitArray addObject:[NSNull null]];
+		}
+		[unitmap insertObject:unitArray atIndex:i];
 	}
+	// this will get overwritten in newPiece
 	currentpiece = PieceCoordMake(1, 1, 2, 1, 3, 1, 4, 1);
 
 	[self initNextPiece];
@@ -45,10 +50,27 @@
 
 - (void)initNextPiece
 {
+	int nextPieceInt = ( arc4random() % 7 );
+	self.nextpiecetype = PieceTypeFromInt( nextPieceInt );
 }
 
 - (void)newPiece
 {
+	// new piece is always of the nextpiecetype
+	PieceType newPieceType = PieceTypeFromInt( self.nextpiecetype );
+	self.currentpiece = [self pieceCoordinatesFromPieceType:newPieceType];
+
+	// move the pieces over to the center of the board
+	int center = (int)total_columns / 2;
+	currentpiece.ay += center;
+	currentpiece.by += center;
+	currentpiece.cy += center;
+	currentpiece.dy += center;
+
+	// piece is not rotated
+	self.rotatedcount = 0;
+
+	[self initNextPiece];
 }
 
 
@@ -64,6 +86,108 @@
 	// lets go ahead and assume we've got a nice steady frame rate
 	// normally we would do something here to calculate how many frames of work we should be doing
 	framecount++;
+	
+	speed = basespeed - level;
+	if (speed<1) {
+		speed = 1;
+	}
+	
+	if ( framecount % speed == 0 ) {
+
+		// reset the framecount
+		framecount = 0;
+
+		// move the piece down (assuming there's room, and we're not falling off the bottom of the board)
+		if ( [[unitmap objectAtIndex:currentpiece.ax] objectAtIndex:(currentpiece.ay + 1)] == nil &&
+			[[unitmap objectAtIndex:currentpiece.bx] objectAtIndex:(currentpiece.by + 1)] == nil &&
+			[[unitmap objectAtIndex:currentpiece.cx] objectAtIndex:(currentpiece.cy + 1)] == nil &&
+			[[unitmap objectAtIndex:currentpiece.dx] objectAtIndex:(currentpiece.dy + 1)] == nil &&
+			(currentpiece.ay + 1) < total_rows &&
+			(currentpiece.by + 1) < total_rows &&
+			(currentpiece.cy + 1) < total_rows &&
+			(currentpiece.dy + 1) < total_rows ) {
+			currentpiece.ay++;
+			currentpiece.by++;
+			currentpiece.cy++;
+			currentpiece.dy++;
+		}
+		else {
+			// set the piece down
+			[[unitmap objectAtIndex:currentpiece.ay] replaceObjectAtIndex:currentpiece.ax withObject:@"piece"];
+			[[unitmap objectAtIndex:currentpiece.by] replaceObjectAtIndex:currentpiece.bx withObject:@"piece"];
+			[[unitmap objectAtIndex:currentpiece.cy] replaceObjectAtIndex:currentpiece.cx withObject:@"piece"];
+			[[unitmap objectAtIndex:currentpiece.dy] replaceObjectAtIndex:currentpiece.dx withObject:@"piece"];
+
+			// check for rows to break
+			[self checkForCompletedRows];
+
+			// make a new one
+			[self newPiece];
+		}
+
+	}
+}
+
+- (void)checkForCompletedRows {
+	//keep an array of completed rows
+	NSMutableArray *completedRows = [NSMutableArray arrayWithCapacity:1];
+	BOOL completed;
+	for (int i=0; i<total_rows; i++) {
+		completed = YES;
+		for (int j=0; j<total_columns; j++) {
+			if ( [[[unitmap objectAtIndex:i] objectAtIndex:j] isEqual:[NSNull null]] ) {
+				completed = NO;
+				continue;
+			}
+		}
+		if (completed) {
+			[completedRows addObject:[NSNumber numberWithInt:i]];
+		}
+	}
+	if ( [completedRows count] > 0 ) {
+		[self updateScoreWithInt:[completedRows count]];
+	}
+	NSLog(@"there were %i completed rows.", [completedRows count]);
+}
+
+
+#pragma mark -
+#pragma mark event based methods
+
+- (void)updateScoreWithInt:(int)new_score {
+	self.score += (self.level * new_score * new_score);
+}
+
+- (void)checkForNewLevel {
+	int nextlevel = self.level * self.level * 10;
+	if ( self.score >= nextlevel ) {
+		self.level++;
+		[self checkForNewLevel];
+	}
+}
+
+
+#pragma mark -
+#pragma mark helper/conversion methods
+
+- (PieceCoord)pieceCoordinatesFromPieceType:(PieceType)newType
+{
+	switch (newType) {
+		case PIECE_TYPE_I:
+			return PieceCoordMake(0, 0, 1, 0, 2, 0, 3, 0);
+		case PIECE_TYPE_J:
+			return PieceCoordMake(0, 0, 1, 0, 2, 0, 2, 1);
+		case PIECE_TYPE_L:
+			return PieceCoordMake(0, 0, 1, 0, 2, 0, 0, 1);
+		case PIECE_TYPE_SQUARE:
+			return PieceCoordMake(0, 0, 0, 1, 1, 1, 1, 0);
+		case PIECE_TYPE_S:
+			return PieceCoordMake(0, 1, 1, 1, 1, 0, 2, 0);
+		case PIECE_TYPE_Z:
+			return PieceCoordMake(0, 0, 1, 0, 1, 1, 2, 1);
+		case PIECE_TYPE_T:
+			return PieceCoordMake(0, 0, 1, 0, 2, 0, 1, 1);
+	}
 }
 
 

@@ -18,20 +18,28 @@ typedef enum {
 	PIECE_TYPE_Z,
 	PIECE_TYPE_T
 } PieceType;
+CG_INLINE PieceType PieceTypeFromInt(int pInt)
+{
+	switch (pInt) {
+		case 1: return PIECE_TYPE_J;
+		case 2: return PIECE_TYPE_L;
+		case 3: return PIECE_TYPE_SQUARE;
+		case 4: return PIECE_TYPE_S;
+		case 5: return PIECE_TYPE_Z;
+		case 6: return PIECE_TYPE_T;
+		default:
+		case 0: return PIECE_TYPE_I;
+	}
+}
 
 struct PieceCoord {
-	int ax;
-	int ay;
-	int bx;
-	int by;
-	int cx;
-	int cy;
-	int dx;
-	int dy;
+	int ax; int ay;
+	int bx; int by;
+	int cx; int cy;
+	int dx; int dy;
 };
 typedef struct PieceCoord PieceCoord;
-CG_INLINE PieceCoord
-PieceCoordMake(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy)
+CG_INLINE PieceCoord PieceCoordMake(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy)
 {
 	PieceCoord p; 
 	p.ax = ax; p.ay = ay; 
@@ -55,6 +63,7 @@ PieceCoordMake(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy)
 	int score;
 	int piececount;
 	int rotatedcount;
+	int capturedrowcount;
 	PieceType piecetype;
 	PieceType nextpiecetype;
 
@@ -81,6 +90,7 @@ PieceCoordMake(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy)
 @property (nonatomic) int score;
 @property (nonatomic) int piececount;
 @property (nonatomic) int rotatedcount;
+@property (nonatomic) int capturedrowcount;
 @property (nonatomic) PieceType piecetype;
 @property (nonatomic) PieceType nextpiecetype;
 @property (nonatomic) int total_rows;
@@ -94,6 +104,9 @@ PieceCoordMake(int ax, int ay, int bx, int by, int cx, int cy, int dx, int dy)
 - (void)initNextPiece;
 - (void)newPiece;
 - (void)work;
+- (void)checkForCompletedRows;
+- (void)checkForNewLevel;
+- (PieceCoord)pieceCoordinatesFromPieceType:(PieceType)newType;
 
 
 @end

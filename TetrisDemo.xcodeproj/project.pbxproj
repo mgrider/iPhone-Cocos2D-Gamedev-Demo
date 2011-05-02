@@ -67,7 +67,7 @@
 		50F414F21069373D002A0D5E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 50F414EE1069373D002A0D5E /* Icon.png */; };
 		8589F0E8136DEC1F007B6F08 /* Colored-stars.png in Resources */ = {isa = PBXBuildFile; fileRef = 8589F0E7136DEC1F007B6F08 /* Colored-stars.png */; };
 		8589F103136DFDCA007B6F08 /* TetrisDemoCCMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8589F102136DFDCA007B6F08 /* TetrisDemoCCMenu.m */; };
-		8589F106136E1744007B6F08 /* JigglyHelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8589F105136E1744007B6F08 /* JigglyHelloWorldLayer.m */; };
+		8589F16E136E2891007B6F08 /* TetrisDemoJigglyHello.m in Sources */ = {isa = PBXBuildFile; fileRef = 8589F16C136E2891007B6F08 /* TetrisDemoJigglyHello.m */; };
 		85A6E0571355548100107841 /* TetrisDemoGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A6E0561355548100107841 /* TetrisDemoGameModel.m */; };
 		DC6640030F83B3EA000B3E49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */; };
 		DC6640050F83B3EA000B3E49 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640040F83B3EA000B3E49 /* OpenAL.framework */; };
@@ -323,8 +323,8 @@
 		8589F0E7136DEC1F007B6F08 /* Colored-stars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Colored-stars.png"; sourceTree = "<group>"; };
 		8589F101136DFDCA007B6F08 /* TetrisDemoCCMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemoCCMenu.h; sourceTree = "<group>"; };
 		8589F102136DFDCA007B6F08 /* TetrisDemoCCMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TetrisDemoCCMenu.m; sourceTree = "<group>"; };
-		8589F104136E1744007B6F08 /* JigglyHelloWorldLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JigglyHelloWorldLayer.h; sourceTree = "<group>"; };
-		8589F105136E1744007B6F08 /* JigglyHelloWorldLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JigglyHelloWorldLayer.m; sourceTree = "<group>"; };
+		8589F16C136E2891007B6F08 /* TetrisDemoJigglyHello.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TetrisDemoJigglyHello.m; sourceTree = "<group>"; };
+		8589F16D136E2891007B6F08 /* TetrisDemoJigglyHello.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemoJigglyHello.h; sourceTree = "<group>"; };
 		85A6E0551355548100107841 /* TetrisDemoGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemoGameModel.h; sourceTree = "<group>"; };
 		85A6E0561355548100107841 /* TetrisDemoGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TetrisDemoGameModel.m; sourceTree = "<group>"; };
 		DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -753,8 +753,8 @@
 		8589F107136E174C007B6F08 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				8589F104136E1744007B6F08 /* JigglyHelloWorldLayer.h */,
-				8589F105136E1744007B6F08 /* JigglyHelloWorldLayer.m */,
+				8589F16D136E2891007B6F08 /* TetrisDemoJigglyHello.h */,
+				8589F16C136E2891007B6F08 /* TetrisDemoJigglyHello.m */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -1180,7 +1180,7 @@
 				E0F80F60120A0182005866B8 /* RootViewController.m in Sources */,
 				85A6E0571355548100107841 /* TetrisDemoGameModel.m in Sources */,
 				8589F103136DFDCA007B6F08 /* TetrisDemoCCMenu.m in Sources */,
-				8589F106136E1744007B6F08 /* JigglyHelloWorldLayer.m in Sources */,
+				8589F16E136E2891007B6F08 /* TetrisDemoJigglyHello.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

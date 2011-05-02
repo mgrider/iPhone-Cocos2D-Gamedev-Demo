@@ -7,7 +7,7 @@
 //
 
 #import "TetrisDemoCCMenu.h"
-#import "JigglyHelloWorldLayer.h"
+#import "TetrisDemoJigglyHello.h"
 
 
 @implementation TetrisDemoCCMenu
@@ -17,19 +17,30 @@
 {
 	// always call "super" init
 	if( (self=[super init])) {
+
 		// make some CCMenuItems
 		CCMenuItemLabel *helloWorld = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"Jiggly Hello World" fontName:@"Helvetica" fontSize:12.0f]
 															  target:self selector:@selector(openHelloWorld)];
+
+		// Make the menu
+		CGSize size = [[CCDirector sharedDirector] winSize];
 		CCMenu *menu = [CCMenu menuWithItems:helloWorld, nil];
-		menu.position = ccp(44, 440);
+		menu.position =  ccp( size.width /2 , size.height/2 );
 		[self addChild:menu z:2];
 	}
+	return self;
 }
 
 
 - (void)openHelloWorld
 {
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1 scene:[JigglyHelloWorldLayer node]]];
+	[[CCDirector sharedDirector] replaceScene:
+	 [CCTransitionFade transitionWithDuration:1 scene:[TetrisDemoJigglyHello node]]];
+}
+
+
+- (void)openParticle1
+{
 }
 
 

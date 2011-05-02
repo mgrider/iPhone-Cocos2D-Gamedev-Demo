@@ -15,8 +15,9 @@
 }
 
 
-+(CCScene *) scene;
++(CCScene *)scene;
 
+- (void)openParticle1;
 - (void)openHelloWorld;
 
 

@@ -12,17 +12,17 @@
 
 
 // TetrisDemoLayer
-@interface TetrisDemoJigglyHello : CCLayer
+@interface TetrisDemoParticles1 : CCLayer
 {
 }
 
 
-// Demo
-- (void)nextFrame:(ccTime)dt;
+//Demo
+- (void)setUpParticles;
 
 
 // returns a CCScene that contains the TetrisDemoLayer as the only child
-+(CCScene *)scene;
++ (CCScene *)scene;
 
 - (void)back;
 

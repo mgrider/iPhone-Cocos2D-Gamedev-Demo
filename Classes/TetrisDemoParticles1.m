@@ -8,35 +8,50 @@
 
 
 // Import the interfaces
-#import "TetrisDemoJigglyHello.h"
+#import "TetrisDemoParticles1.h"
 #import "TetrisDemoCCMenu.h"
 
 // TetrisDemoLayer implementation
-@implementation TetrisDemoJigglyHello
+@implementation TetrisDemoParticles1
 
 
-#pragma mark -
-#pragma mark nextFrame is called every frame
-
-- (void)nextFrame:(ccTime)dt {
-	CCLabelTTF *label = (CCLabelTTF*)[self getChildByTag:1000];
-	switch (arc4random()%4) {
-		case 0:
-			label.position = ccp( label.position.x+1, label.position.y );
-			break;
-		case 1:
-			label.position = ccp( label.position.x-1, label.position.y );
-			break;
-		case 2:
-			label.position = ccp( label.position.x, label.position.y+1 );
-			break;
-		case 3:
-			label.position = ccp( label.position.x, label.position.y-1 );
-			break;
-		default:
-			break;
-	}
+- (void)setUpParticles
+{
+	CCParticleFireworks *emitter = [[CCParticleFireworks alloc] initWithTotalParticles:413];
+	[emitter setEmitterMode: kCCParticleModeGravity];
 }
+
+- (void)setUpParticlesRadius
+{
+	CCParticleFireworks *emitter = [[CCParticleFireworks alloc] initWithTotalParticles:413];
+	[emitter setEmitterMode: kCCParticleModeRadius];
+	[emitter setAngle:338];
+}
+
+- (void)setUpParticles2
+{
+	CCParticleFireworks *emitter = [[CCParticleFireworks alloc] initWithTotalParticles:413];
+	[emitter setEmitterMode: kCCParticleModeRadius];
+//	[emitter setStartSize:30.0f];
+	[emitter setEndSize:1.0f];
+	[emitter setStartSpin:10.0f];
+/*	
+	[emitter setGravity:ccp(1.23,0.28)];
+	[emitter setSpeed:12.0];
+	[emitter setLifeVar:8];
+	[emitter setStartSize:26.0];
+	[emitter setStartSizeVar:5.0];
+	[emitter setEndSize:14.0];
+	[emitter setEndSizeVar:33.0];
+	[emitter setLife:10];
+	[emitter setAngleVar:337];
+ 
+	// you can also use Particle Designer: http://particledesigner.71squared.com/
+*/
+	
+	[self addChild:emitter];
+}
+
 
 
 #pragma mark -
@@ -48,7 +63,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	TetrisDemoJigglyHello *layer = [TetrisDemoJigglyHello node];
+	TetrisDemoParticles1 *layer = [TetrisDemoParticles1 node];
 
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -63,22 +78,8 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
-		
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-		[label setTag:1000];
 
-		// ask director the the window size
-		CGSize size = [[CCDirector sharedDirector] winSize];
-	
-		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
-		
-		// add the label as a child to this Layer
-		[self addChild: label];
-
-		// schedule a repeating callback on every frame
-        [self schedule:@selector(nextFrame:)];
+		//[self setUpParticles];
 
 		// a back button
 		CCMenuItemLabel *back = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"back" fontName:@"Helvetica" fontSize:12.0f]

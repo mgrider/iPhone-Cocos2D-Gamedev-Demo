@@ -30,7 +30,7 @@
 
 		// Make the menu
 		CGSize size = [[CCDirector sharedDirector] winSize];
-		CCMenu *menu = [CCMenu menuWithItems:helloWorld, particle1, nil];
+		CCMenu *menu = [CCMenu menuWithItems:helloWorld, particle1, particle2, nil];
 		[menu alignItemsVertically];
 		menu.position =  ccp( size.width /2 , size.height/2 );
 		[self addChild:menu z:2];
@@ -42,17 +42,20 @@
 - (void)openParticle2
 {
 	TetrisDemoParticles1 *particles = [TetrisDemoParticles1 node];
-	[particles setUpParticles];
+	[[particles getChildByTag:1000] setUpParticles];
 
 	[[CCDirector sharedDirector] replaceScene:
-	 [CCTransitionFadeDown transitionWithDuration:1 scene:particles]];
+	 [CCTransitionFadeDown transitionWithDuration:1 scene:(CCScene*)particles]];
 }
 
 
 - (void)openParticle1
 {
+	TetrisDemoParticles1 *particles = [TetrisDemoParticles1 node];
+	[[particles getChildByTag:1000] setUpParticlesRadius];
+	
 	[[CCDirector sharedDirector] replaceScene:
-	 [CCTransitionFadeDown transitionWithDuration:1 scene:[TetrisDemoParticles1 node]]];
+	 [CCTransitionFadeDown transitionWithDuration:1 scene:(CCScene*)particles]];
 }
 
 

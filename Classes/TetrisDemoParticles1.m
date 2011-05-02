@@ -64,6 +64,7 @@
 	
 	// 'layer' is an autorelease object.
 	TetrisDemoParticles1 *layer = [TetrisDemoParticles1 node];
+	[layer setTag:1000];
 
 	// add layer as a child to scene
 	[scene addChild: layer];
@@ -79,7 +80,7 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
 
-		//[self setUpParticles];
+		[self setUpParticles];
 
 		// a back button
 		CCMenuItemLabel *back = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"back" fontName:@"Helvetica" fontSize:12.0f]

@@ -19,6 +19,16 @@
 
 //Demo
 - (void)setUpParticles;
+- (void)setUpParticlesRadius;
+- (void)setUpParticles3;
+- (void)setUpParticles4;
+- (void)setUpParticles5;
+- (void)setUpParticles6;
+- (void)setUpParticles7;
+- (void)setUpParticles8;
+- (void)setUpParticles9;
+- (void)setUpParticles10;
+- (void)setUpParticles11;
 
 
 // returns a CCScene that contains the TetrisDemoLayer as the only child

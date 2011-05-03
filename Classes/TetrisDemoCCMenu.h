@@ -17,6 +17,16 @@
 
 +(CCScene *)scene;
 
+- (void)openParticle11;
+- (void)openParticle10;
+- (void)openParticle9;
+- (void)openParticle8;
+- (void)openParticle7;
+- (void)openParticle6;
+- (void)openParticle5;
+- (void)openParticle4;
+- (void)openParticle3;
+- (void)openParticle2;
 - (void)openParticle1;
 - (void)openHelloWorld;
 

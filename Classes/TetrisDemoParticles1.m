@@ -19,22 +19,80 @@
 {
 	CCParticleFireworks *emitter = [[CCParticleFireworks alloc] initWithTotalParticles:413];
 	[emitter setEmitterMode: kCCParticleModeGravity];
+	[self addChild:emitter];
 }
 
 - (void)setUpParticlesRadius
 {
 	CCParticleFireworks *emitter = [[CCParticleFireworks alloc] initWithTotalParticles:413];
 	[emitter setEmitterMode: kCCParticleModeRadius];
-	[emitter setAngle:338];
+	[emitter setAngle:180];
+	[self addChild:emitter];
 }
 
-- (void)setUpParticles2
+- (void)setUpParticles3
+{
+	CCParticleFire *emitter = [[CCParticleFire alloc] initWithTotalParticles:10];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles4
+{
+	CCParticleExplosion *emitter = [[CCParticleExplosion alloc] initWithTotalParticles:1000];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles5
+{
+	CCParticleFlower *emitter = [[CCParticleFlower alloc] initWithTotalParticles:100];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles6
+{
+	CCParticleGalaxy *emitter = [[CCParticleGalaxy alloc] initWithTotalParticles:300];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles7
+{
+	CCParticleRain *emitter = [[CCParticleRain alloc] initWithTotalParticles:300];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles8
+{
+	CCParticleSmoke *emitter = [[CCParticleSmoke alloc] initWithTotalParticles:300];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles9
+{
+	CCParticleSnow *emitter = [[CCParticleSnow alloc] initWithTotalParticles:300];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles10
+{
+	CCParticleSpiral *emitter = [[CCParticleSpiral alloc] init];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticles11
+{
+	CCParticleSun *emitter = [[CCParticleSun alloc] initWithTotalParticles:300];
+	[self addChild:emitter];
+}
+
+- (void)setUpParticlesOthers
 {
 	CCParticleFireworks *emitter = [[CCParticleFireworks alloc] initWithTotalParticles:413];
-	[emitter setEmitterMode: kCCParticleModeRadius];
+	[emitter setEmitterMode:kCCParticleModeRadius];
+
+//	[emitter setEmitterMode: kCCParticleModeRadius];
 //	[emitter setStartSize:30.0f];
-	[emitter setEndSize:1.0f];
-	[emitter setStartSpin:10.0f];
+//	[emitter setEndSize:1.0f];
+//	[emitter setStartSpin:10.0f];
 /*	
 	[emitter setGravity:ccp(1.23,0.28)];
 	[emitter setSpeed:12.0];
@@ -80,7 +138,7 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
 
-		[self setUpParticles];
+		//[self setUpParticles];
 
 		// a back button
 		CCMenuItemLabel *back = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"back" fontName:@"Helvetica" fontSize:12.0f]

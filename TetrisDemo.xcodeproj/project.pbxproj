@@ -578,6 +578,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				858F57E1136FE850000085AB /* Externals */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				506EDAA3102F461B00A389B3 /* cocos2d Sources */,
 				1F3B9A820EF2151B00286867 /* TetrisDemo_Prefix.pch */,
@@ -771,6 +772,13 @@
 				8589F1AF136E43B6007B6F08 /* TetrisDemoParticles1.m */,
 			);
 			name = Examples;
+			sourceTree = "<group>";
+		};
+		858F57E1136FE850000085AB /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Externals;
 			sourceTree = "<group>";
 		};
 		E02BB764126CC223006E46A2 /* cocos2d */ = {

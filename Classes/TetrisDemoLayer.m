@@ -35,19 +35,28 @@
 
 - (void)nextFrame:(ccTime)dt
 {
+	if ( [gameModel is_game_over] ) {
+		[self drawGameOver];
+		return;
+	}
+
 	// all important
 	[gameModel work];
 
 	// update display
 	[levelLabel setString:[NSString stringWithFormat:@"Level: %i", [gameModel level]]];
 	[scoreLabel setString:[NSString stringWithFormat:@"Score: %i", [gameModel score]]];
-	
+
 	// first draw the "set" units
 	[self drawUnits];
 
 	// then draw the current pieces
 	[self drawCurrentPiece];
+}
 
+- (void)drawGameOver
+{
+	[gameOverLabel setVisible:YES];
 }
 
 - (void)drawUnits
@@ -176,6 +185,18 @@
 		block4 = [CCSprite spriteWithBatchNode:blockSheet rect:BLOCK_RECT_I];
 		[blockSheet addChild:block4];
 
+		// draw a label for the game over
+		gameOverLabel = [CCLabelTTF labelWithString:@"Game Over!" fontName:@"Courier" fontSize:52];
+		gameOverLabel.position = ccp( size.width / 2, size.height / 2 );
+		[gameOverLabel setVisible:NO];
+		[self addChild:gameOverLabel];
+		gameOverLabel2 = [CCLabelTTF labelWithString:@"Game Over!" fontName:@"Courier" fontSize:52];
+		gameOverLabel2.position = ccp( (size.width / 2)+2, (size.height / 2)+2 );
+		[gameOverLabel2 setColor:ccBLACK];
+		[gameOverLabel2 setVisible:NO];
+		[self addChild:gameOverLabel2];
+
+		// actually start the game
 		[self startGame];
 
 		// schedule a repeating callback on every frame

@@ -61,7 +61,6 @@ CG_INLINE PieceCoord PieceCoordMake(int ax, int ay, int bx, int by, int cx, int 
 	int speed;
 	int basespeed;
 	int score;
-	int piececount;
 	int rotatedcount;
 	int capturedrowcount;
 	PieceType piecetype;
@@ -88,7 +87,6 @@ CG_INLINE PieceCoord PieceCoordMake(int ax, int ay, int bx, int by, int cx, int 
 @property (nonatomic) int speed;
 @property (nonatomic) int basespeed;
 @property (nonatomic) int score;
-@property (nonatomic) int piececount;
 @property (nonatomic) int rotatedcount;
 @property (nonatomic) int capturedrowcount;
 @property (nonatomic) PieceType piecetype;
@@ -103,6 +101,7 @@ CG_INLINE PieceCoord PieceCoordMake(int ax, int ay, int bx, int by, int cx, int 
 - (void)startNewGame;
 - (void)initNextPiece;
 - (void)newPiece;
+- (void)gameOver;
 - (void)work;
 - (void)checkForCompletedRows;
 - (void)updateScoreWithInt:(int)new_score;

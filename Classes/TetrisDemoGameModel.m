@@ -13,7 +13,7 @@
 
 
 @synthesize is_paused, is_game_over, framecount, level, speed, basespeed;
-@synthesize score, piececount, rotatedcount, capturedrowcount, piecetype, nextpiecetype;
+@synthesize score, rotatedcount, capturedrowcount, piecetype, nextpiecetype;
 @synthesize total_rows, total_columns, unitsize;
 @synthesize currentpiece, unitmap;
 
@@ -30,7 +30,6 @@
 	speed = 20;  // piece moves once every 20 frames
 	basespeed = 20;  // how slow to start
 	score = 0;
-	piececount = 0;
 	rotatedcount = 0;
 	
 	self.unitmap = [NSMutableArray arrayWithCapacity:total_rows];
@@ -61,16 +60,29 @@
 	currentpiece = [self pieceCoordinatesFromPieceType:piecetype];
 
 	// move the pieces over to the center of the board
-	int center = (int)total_columns / 2;
+	int center = (int)(total_columns / 2) - 1;
 	currentpiece.ax += center;
 	currentpiece.bx += center;
 	currentpiece.cx += center;
 	currentpiece.dx += center;
 
+	// check for game over
+	if ( [[unitmap objectAtIndex:(currentpiece.ay)] objectAtIndex:(currentpiece.ax)] != [NSNull null] ||
+		[[unitmap objectAtIndex:(currentpiece.by)] objectAtIndex:(currentpiece.by)] != [NSNull null] ||
+		[[unitmap objectAtIndex:(currentpiece.cy)] objectAtIndex:(currentpiece.cy)] != [NSNull null] ||
+		[[unitmap objectAtIndex:(currentpiece.dy)] objectAtIndex:(currentpiece.dy)] != [NSNull null] ) {
+		[self gameOver];
+	}
+
 	// piece is not rotated
 	rotatedcount = 0;
 
 	[self initNextPiece];
+}
+
+- (void)gameOver
+{
+	is_game_over = YES;
 }
 
 

@@ -20,6 +20,8 @@
 	TetrisDemoGameModel *gameModel;
 	CCLabelTTF *levelLabel;
 	CCLabelTTF *scoreLabel;
+	CCLabelTTF *gameOverLabel;
+	CCLabelTTF *gameOverLabel2;
 	
 	CCSpriteBatchNode *blockSheet;
 	CCSprite *block1;
@@ -40,6 +42,7 @@
 +(CCScene *)scene;
 
 - (void)startGame;
+- (void)drawGameOver;
 - (void)drawUnits;
 - (void)drawCurrentPiece;
 - (CGRect)pieceRectForType:(PieceType)type;

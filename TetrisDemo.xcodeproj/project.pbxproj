@@ -72,6 +72,15 @@
 		8589F399136FB50B007B6F08 /* squares.png in Resources */ = {isa = PBXBuildFile; fileRef = 8589F396136FB50B007B6F08 /* squares.png */; };
 		8589F39A136FB50B007B6F08 /* squares2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8589F397136FB50B007B6F08 /* squares2.png */; };
 		8589F39B136FB50B007B6F08 /* squares3.png in Resources */ = {isa = PBXBuildFile; fileRef = 8589F398136FB50B007B6F08 /* squares3.png */; };
+		858F57FB136FE9F7000085AB /* ColoredCircleSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57EA136FE9F7000085AB /* ColoredCircleSprite.m */; };
+		858F57FC136FE9F7000085AB /* ColoredSquareSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57EC136FE9F7000085AB /* ColoredSquareSprite.m */; };
+		858F57FD136FE9F7000085AB /* InputLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57EE136FE9F7000085AB /* InputLayer.m */; };
+		858F57FE136FE9F7000085AB /* SneakyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57F0136FE9F7000085AB /* SneakyButton.m */; };
+		858F57FF136FE9F7000085AB /* SneakyButtonSkinnedBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57F2136FE9F7000085AB /* SneakyButtonSkinnedBase.m */; };
+		858F5800136FE9F7000085AB /* SneakyJoystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57F4136FE9F7000085AB /* SneakyJoystick.m */; };
+		858F5801136FE9F7000085AB /* SneakyJoystickSkinnedBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57F6136FE9F7000085AB /* SneakyJoystickSkinnedBase.m */; };
+		858F5802136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57F8136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.m */; };
+		858F5803136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 858F57FA136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.m */; };
 		85A6E0571355548100107841 /* TetrisDemoGameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A6E0561355548100107841 /* TetrisDemoGameModel.m */; };
 		DC6640030F83B3EA000B3E49 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */; };
 		DC6640050F83B3EA000B3E49 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6640040F83B3EA000B3E49 /* OpenAL.framework */; };
@@ -334,6 +343,24 @@
 		8589F396136FB50B007B6F08 /* squares.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = squares.png; sourceTree = "<group>"; };
 		8589F397136FB50B007B6F08 /* squares2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = squares2.png; sourceTree = "<group>"; };
 		8589F398136FB50B007B6F08 /* squares3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = squares3.png; sourceTree = "<group>"; };
+		858F57E9136FE9F7000085AB /* ColoredCircleSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColoredCircleSprite.h; sourceTree = "<group>"; };
+		858F57EA136FE9F7000085AB /* ColoredCircleSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColoredCircleSprite.m; sourceTree = "<group>"; };
+		858F57EB136FE9F7000085AB /* ColoredSquareSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColoredSquareSprite.h; sourceTree = "<group>"; };
+		858F57EC136FE9F7000085AB /* ColoredSquareSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColoredSquareSprite.m; sourceTree = "<group>"; };
+		858F57ED136FE9F7000085AB /* InputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputLayer.h; sourceTree = "<group>"; };
+		858F57EE136FE9F7000085AB /* InputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayer.m; sourceTree = "<group>"; };
+		858F57EF136FE9F7000085AB /* SneakyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyButton.h; sourceTree = "<group>"; };
+		858F57F0136FE9F7000085AB /* SneakyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyButton.m; sourceTree = "<group>"; };
+		858F57F1136FE9F7000085AB /* SneakyButtonSkinnedBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyButtonSkinnedBase.h; sourceTree = "<group>"; };
+		858F57F2136FE9F7000085AB /* SneakyButtonSkinnedBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyButtonSkinnedBase.m; sourceTree = "<group>"; };
+		858F57F3136FE9F7000085AB /* SneakyJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyJoystick.h; sourceTree = "<group>"; };
+		858F57F4136FE9F7000085AB /* SneakyJoystick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyJoystick.m; sourceTree = "<group>"; };
+		858F57F5136FE9F7000085AB /* SneakyJoystickSkinnedBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyJoystickSkinnedBase.h; sourceTree = "<group>"; };
+		858F57F6136FE9F7000085AB /* SneakyJoystickSkinnedBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyJoystickSkinnedBase.m; sourceTree = "<group>"; };
+		858F57F7136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyJoystickSkinnedDPadExample.h; sourceTree = "<group>"; };
+		858F57F8136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyJoystickSkinnedDPadExample.m; sourceTree = "<group>"; };
+		858F57F9136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyJoystickSkinnedJoystickExample.h; sourceTree = "<group>"; };
+		858F57FA136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyJoystickSkinnedJoystickExample.m; sourceTree = "<group>"; };
 		85A6E0551355548100107841 /* TetrisDemoGameModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TetrisDemoGameModel.h; sourceTree = "<group>"; };
 		85A6E0561355548100107841 /* TetrisDemoGameModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TetrisDemoGameModel.m; sourceTree = "<group>"; };
 		DC6640020F83B3EA000B3E49 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -777,8 +804,35 @@
 		858F57E1136FE850000085AB /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				858F57E8136FE9F7000085AB /* SneakyInput */,
 			);
 			name = Externals;
+			sourceTree = "<group>";
+		};
+		858F57E8136FE9F7000085AB /* SneakyInput */ = {
+			isa = PBXGroup;
+			children = (
+				858F57E9136FE9F7000085AB /* ColoredCircleSprite.h */,
+				858F57EA136FE9F7000085AB /* ColoredCircleSprite.m */,
+				858F57EB136FE9F7000085AB /* ColoredSquareSprite.h */,
+				858F57EC136FE9F7000085AB /* ColoredSquareSprite.m */,
+				858F57ED136FE9F7000085AB /* InputLayer.h */,
+				858F57EE136FE9F7000085AB /* InputLayer.m */,
+				858F57EF136FE9F7000085AB /* SneakyButton.h */,
+				858F57F0136FE9F7000085AB /* SneakyButton.m */,
+				858F57F1136FE9F7000085AB /* SneakyButtonSkinnedBase.h */,
+				858F57F2136FE9F7000085AB /* SneakyButtonSkinnedBase.m */,
+				858F57F3136FE9F7000085AB /* SneakyJoystick.h */,
+				858F57F4136FE9F7000085AB /* SneakyJoystick.m */,
+				858F57F5136FE9F7000085AB /* SneakyJoystickSkinnedBase.h */,
+				858F57F6136FE9F7000085AB /* SneakyJoystickSkinnedBase.m */,
+				858F57F7136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.h */,
+				858F57F8136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.m */,
+				858F57F9136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.h */,
+				858F57FA136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.m */,
+			);
+			name = SneakyInput;
+			path = Externals/SneakyInput;
 			sourceTree = "<group>";
 		};
 		E02BB764126CC223006E46A2 /* cocos2d */ = {
@@ -1207,6 +1261,15 @@
 				8589F103136DFDCA007B6F08 /* TetrisDemoCCMenu.m in Sources */,
 				8589F16E136E2891007B6F08 /* TetrisDemoJigglyHello.m in Sources */,
 				8589F1B0136E43B6007B6F08 /* TetrisDemoParticles1.m in Sources */,
+				858F57FB136FE9F7000085AB /* ColoredCircleSprite.m in Sources */,
+				858F57FC136FE9F7000085AB /* ColoredSquareSprite.m in Sources */,
+				858F57FD136FE9F7000085AB /* InputLayer.m in Sources */,
+				858F57FE136FE9F7000085AB /* SneakyButton.m in Sources */,
+				858F57FF136FE9F7000085AB /* SneakyButtonSkinnedBase.m in Sources */,
+				858F5800136FE9F7000085AB /* SneakyJoystick.m in Sources */,
+				858F5801136FE9F7000085AB /* SneakyJoystickSkinnedBase.m in Sources */,
+				858F5802136FE9F7000085AB /* SneakyJoystickSkinnedDPadExample.m in Sources */,
+				858F5803136FE9F7000085AB /* SneakyJoystickSkinnedJoystickExample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

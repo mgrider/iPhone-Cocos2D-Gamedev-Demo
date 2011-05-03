@@ -16,7 +16,7 @@
 #import "ColoredCircleSprite.h"
 
 // HelloWorld implementation
-@implementation HelloWorld
+@implementation InputLayer
 
 +(id) scene
 {
@@ -24,7 +24,7 @@
 	CCScene *scene = [CCScene node];
 	
 	// 'layer' is an autorelease object.
-	HelloWorld *layer = [HelloWorld node];
+	InputLayer *layer = [InputLayer node];
 	
 	// add layer as a child to scene
 	[scene addChild: layer];

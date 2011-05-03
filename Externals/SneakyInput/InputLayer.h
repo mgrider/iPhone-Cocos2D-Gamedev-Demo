@@ -14,7 +14,7 @@
 @class SneakyButton;
 
 // HelloWorld Layer
-@interface HelloWorld : CCLayer
+@interface InputLayer : CCLayer
 {
 	SneakyJoystick *leftJoystick;
 	SneakyButton *rightButton;

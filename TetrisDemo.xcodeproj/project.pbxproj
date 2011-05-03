@@ -347,8 +347,8 @@
 		858F57EA136FE9F7000085AB /* ColoredCircleSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColoredCircleSprite.m; sourceTree = "<group>"; };
 		858F57EB136FE9F7000085AB /* ColoredSquareSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColoredSquareSprite.h; sourceTree = "<group>"; };
 		858F57EC136FE9F7000085AB /* ColoredSquareSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColoredSquareSprite.m; sourceTree = "<group>"; };
-		858F57ED136FE9F7000085AB /* InputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputLayer.h; sourceTree = "<group>"; };
-		858F57EE136FE9F7000085AB /* InputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputLayer.m; sourceTree = "<group>"; };
+		858F57ED136FE9F7000085AB /* InputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputLayer.h; path = ../Externals/SneakyInput/InputLayer.h; sourceTree = "<group>"; };
+		858F57EE136FE9F7000085AB /* InputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InputLayer.m; path = ../Externals/SneakyInput/InputLayer.m; sourceTree = "<group>"; };
 		858F57EF136FE9F7000085AB /* SneakyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyButton.h; sourceTree = "<group>"; };
 		858F57F0136FE9F7000085AB /* SneakyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SneakyButton.m; sourceTree = "<group>"; };
 		858F57F1136FE9F7000085AB /* SneakyButtonSkinnedBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SneakyButtonSkinnedBase.h; sourceTree = "<group>"; };
@@ -784,6 +784,8 @@
 				85A6E0561355548100107841 /* TetrisDemoGameModel.m */,
 				506EDC2F102F528A00A389B3 /* TetrisDemoLayer.h */,
 				506EDC30102F528A00A389B3 /* TetrisDemoLayer.m */,
+				858F57ED136FE9F7000085AB /* InputLayer.h */,
+				858F57EE136FE9F7000085AB /* InputLayer.m */,
 			);
 			name = Tetris;
 			sourceTree = "<group>";
@@ -816,8 +818,6 @@
 				858F57EA136FE9F7000085AB /* ColoredCircleSprite.m */,
 				858F57EB136FE9F7000085AB /* ColoredSquareSprite.h */,
 				858F57EC136FE9F7000085AB /* ColoredSquareSprite.m */,
-				858F57ED136FE9F7000085AB /* InputLayer.h */,
-				858F57EE136FE9F7000085AB /* InputLayer.m */,
 				858F57EF136FE9F7000085AB /* SneakyButton.h */,
 				858F57F0136FE9F7000085AB /* SneakyButton.m */,
 				858F57F1136FE9F7000085AB /* SneakyButtonSkinnedBase.h */,

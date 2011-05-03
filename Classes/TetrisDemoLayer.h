@@ -12,6 +12,7 @@
 
 
 #include "TetrisDemoGameModel.h"
+#include "InputLayer.h"
 
 
 // TetrisDemoLayer
@@ -30,6 +31,7 @@
 	CCSprite *block4;
 	
 	PieceType previous_current_piecetype;
+	InputLayer *inputLayer;
 }
 
 

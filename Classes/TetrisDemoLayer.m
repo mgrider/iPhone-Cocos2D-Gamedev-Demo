@@ -9,6 +9,7 @@
 
 // Import the interfaces
 #import "TetrisDemoLayer.h"
+#import "InputLayer.h"
 
 
 #define BLOCK_RECT_I CGRectMake(0, 0, 16, 16)
@@ -195,6 +196,10 @@
 		[gameOverLabel2 setColor:ccBLACK];
 		[gameOverLabel2 setVisible:NO];
 		[self addChild:gameOverLabel2];
+
+		// add the input layer
+		inputLayer = [[InputLayer node] retain];
+		[self addChild:inputLayer];
 
 		// actually start the game
 		[self startGame];

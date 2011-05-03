@@ -7,7 +7,7 @@
 //
 
 // Import the interfaces
-#import "HelloWorldScene.h"
+#import "InputLayer.h"
 #import "SneakyJoystick.h"
 #import "SneakyJoystickSkinnedJoystickExample.h"
 #import "SneakyJoystickSkinnedDPadExample.h"
@@ -42,10 +42,12 @@
 		self.isTouchEnabled = YES;
 		
 		SneakyJoystickSkinnedBase *leftJoy = [[[SneakyJoystickSkinnedBase alloc] init] autorelease];
-		leftJoy.position = ccp(64,64);
+		leftJoy.position = ccp(100,100);
 		leftJoy.backgroundSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 0, 0, 128) radius:64];
 		leftJoy.thumbSprite = [ColoredCircleSprite circleWithColor:ccc4(0, 0, 255, 200) radius:32];
 		leftJoy.joystick = [[SneakyJoystick alloc] initWithRect:CGRectMake(0,0,128,128)];
+		leftJoy.joystick.isDPad = YES;
+		leftJoy.joystick.numberOfDirections = 4;
 		leftJoystick = [leftJoy.joystick retain];
 		[self addChild:leftJoy];
 		
@@ -53,10 +55,10 @@
 		rightBut.position = ccp(448,32);
 		rightBut.defaultSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 255, 255, 128) radius:32];
 		rightBut.activatedSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 255, 255, 255) radius:32];
-		rightBut.pressSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 0, 0, 255) radius:32];
+		rightBut.pressSprite = [ColoredCircleSprite circleWithColor:ccc4(200, 0, 0, 255) radius:32];
 		rightBut.button = [[SneakyButton alloc] initWithRect:CGRectMake(0, 0, 64, 64)];
 		rightButton = [rightBut.button retain];
-		rightButton.isToggleable = YES;
+		rightButton.isToggleable = NO;
 		[self addChild:rightBut];
 		
 		[[CCDirector sharedDirector] setAnimationInterval:1.0f/60.0f];

@@ -9,6 +9,7 @@
 #import "TetrisDemoCCMenu.h"
 #import "TetrisDemoJigglyHello.h"
 #import "TetrisDemoParticles1.h"
+#import "TetrisDemoLayer.h"
 
 
 @implementation TetrisDemoCCMenu
@@ -65,10 +66,23 @@
 		menu.position =  ccp( size.width /3 , size.height/2 );
 		[self addChild:menu z:2];
 
-		CCMenuItemLabel *asdf = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"Jiggly Hello World" fontName:@"Helvetica" fontSize:12.0f]
-															  target:self selector:@selector(openHelloWorld)];
+		CCMenuItemLabel *asdf = [CCMenuItemLabel itemWithLabel:[CCLabelTTF labelWithString:@"Tetris Demo" fontName:@"Helvetica" fontSize:12.0f]
+															  target:self selector:@selector(openTetrisDemo)];
+		[asdf setColor:ccYELLOW];
+		// Make the menu
+		CCMenu *menu2 = [CCMenu menuWithItems:asdf, nil];
+		[menu2 alignItemsVertically];
+		menu2.position =  ccp( (size.width /3)*2 , size.height/2 );
+		[self addChild:menu2 z:2];
 	}
 	return self;
+}
+
+
+- (void)openTetrisDemo
+{
+	[[CCDirector sharedDirector] replaceScene:
+	 [CCTransitionFade transitionWithDuration:1 scene:[TetrisDemoLayer node]]];
 }
 
 

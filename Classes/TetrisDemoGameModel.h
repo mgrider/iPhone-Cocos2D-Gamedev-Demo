@@ -105,6 +105,7 @@ CG_INLINE PieceCoord PieceCoordMake(int ax, int ay, int bx, int by, int cx, int 
 - (void)newPiece;
 - (void)work;
 - (void)checkForCompletedRows;
+- (void)updateScoreWithInt:(int)new_score;
 - (void)checkForNewLevel;
 - (PieceCoord)pieceCoordinatesFromPieceType:(PieceType)newType;
 

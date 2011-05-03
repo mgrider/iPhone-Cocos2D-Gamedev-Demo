@@ -18,13 +18,31 @@
 @interface TetrisDemoLayer : CCLayer
 {
 	TetrisDemoGameModel *gameModel;
+	CCLabelTTF *levelLabel;
+	CCLabelTTF *scoreLabel;
+	
+	CCSpriteBatchNode *blockSheet;
+	CCSprite *block1;
+	CCSprite *block2;
+	CCSprite *block3;
+	CCSprite *block4;
+	
+	PieceType previous_current_piecetype;
 }
 
 
-// returns a CCScene that contains the TetrisDemoLayer as the only child
-+(CCScene *) scene;
+@property (nonatomic, retain) CCSpriteBatchNode *blockSheet;
+@property (nonatomic, retain) TetrisDemoGameModel *gameModel;
+@property (nonatomic, assign) PieceType previous_current_piecetype;
 
--(void)startGame;
+
+// returns a CCScene that contains the TetrisDemoLayer as the only child
++(CCScene *)scene;
+
+- (void)startGame;
+- (void)drawUnits;
+- (void)drawCurrentPiece;
+- (CGRect)pieceRectForType:(PieceType)type;
 
 
 @end

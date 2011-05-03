@@ -33,7 +33,7 @@
 	piececount = 0;
 	rotatedcount = 0;
 	
-	unitmap = [NSMutableArray arrayWithCapacity:total_rows];
+	self.unitmap = [NSMutableArray arrayWithCapacity:total_rows];
 	for ( int i=0; i < total_rows; i++ ) {
 		NSMutableArray *unitArray = [NSMutableArray arrayWithCapacity:total_columns];
 		for (int j=0; j<total_columns; j++) {
@@ -51,24 +51,24 @@
 - (void)initNextPiece
 {
 	int nextPieceInt = ( arc4random() % 7 );
-	self.nextpiecetype = PieceTypeFromInt( nextPieceInt );
+	nextpiecetype = PieceTypeFromInt( nextPieceInt );
 }
 
 - (void)newPiece
 {
 	// new piece is always of the nextpiecetype
-	PieceType newPieceType = PieceTypeFromInt( self.nextpiecetype );
-	self.currentpiece = [self pieceCoordinatesFromPieceType:newPieceType];
+	piecetype = nextpiecetype;
+	currentpiece = [self pieceCoordinatesFromPieceType:piecetype];
 
 	// move the pieces over to the center of the board
 	int center = (int)total_columns / 2;
-	currentpiece.ay += center;
-	currentpiece.by += center;
-	currentpiece.cy += center;
-	currentpiece.dy += center;
+	currentpiece.ax += center;
+	currentpiece.bx += center;
+	currentpiece.cx += center;
+	currentpiece.dx += center;
 
 	// piece is not rotated
-	self.rotatedcount = 0;
+	rotatedcount = 0;
 
 	[self initNextPiece];
 }
@@ -91,33 +91,39 @@
 	if (speed<1) {
 		speed = 1;
 	}
-	
+
 	if ( framecount % speed == 0 ) {
 
+		NSLog(@"found a frame.");
 		// reset the framecount
 		framecount = 0;
 
 		// move the piece down (assuming there's room, and we're not falling off the bottom of the board)
-		if ( [[unitmap objectAtIndex:currentpiece.ax] objectAtIndex:(currentpiece.ay + 1)] == nil &&
-			[[unitmap objectAtIndex:currentpiece.bx] objectAtIndex:(currentpiece.by + 1)] == nil &&
-			[[unitmap objectAtIndex:currentpiece.cx] objectAtIndex:(currentpiece.cy + 1)] == nil &&
-			[[unitmap objectAtIndex:currentpiece.dx] objectAtIndex:(currentpiece.dy + 1)] == nil &&
-			(currentpiece.ay + 1) < total_rows &&
+		if ( (currentpiece.ay + 1) < total_rows &&
 			(currentpiece.by + 1) < total_rows &&
 			(currentpiece.cy + 1) < total_rows &&
-			(currentpiece.dy + 1) < total_rows ) {
+			(currentpiece.dy + 1) < total_rows &&
+			[[unitmap objectAtIndex:currentpiece.ay + 1] objectAtIndex:(currentpiece.ax)] == [NSNull null] &&
+			[[unitmap objectAtIndex:currentpiece.by + 1] objectAtIndex:(currentpiece.bx)] == [NSNull null] &&
+			[[unitmap objectAtIndex:currentpiece.cy + 1] objectAtIndex:(currentpiece.cx)] == [NSNull null] &&
+			[[unitmap objectAtIndex:currentpiece.dy + 1] objectAtIndex:(currentpiece.dx)] == [NSNull null] )
+		{
+			NSLog(@"curentpiece has fallen.");
 			currentpiece.ay++;
 			currentpiece.by++;
 			currentpiece.cy++;
 			currentpiece.dy++;
 		}
-		else {
+		else 
+		{
+			NSLog(@"setting the piece down. piecetype is %i", piecetype);
 			// set the piece down
-			[[unitmap objectAtIndex:currentpiece.ay] replaceObjectAtIndex:currentpiece.ax withObject:@"piece"];
-			[[unitmap objectAtIndex:currentpiece.by] replaceObjectAtIndex:currentpiece.bx withObject:@"piece"];
-			[[unitmap objectAtIndex:currentpiece.cy] replaceObjectAtIndex:currentpiece.cx withObject:@"piece"];
-			[[unitmap objectAtIndex:currentpiece.dy] replaceObjectAtIndex:currentpiece.dx withObject:@"piece"];
+			[[unitmap objectAtIndex:currentpiece.ay] replaceObjectAtIndex:currentpiece.ax withObject:[NSNumber numberWithInt:piecetype]];
+			[[unitmap objectAtIndex:currentpiece.by] replaceObjectAtIndex:currentpiece.bx withObject:[NSNumber numberWithInt:piecetype]];
+			[[unitmap objectAtIndex:currentpiece.cy] replaceObjectAtIndex:currentpiece.cx withObject:[NSNumber numberWithInt:piecetype]];
+			[[unitmap objectAtIndex:currentpiece.dy] replaceObjectAtIndex:currentpiece.dx withObject:[NSNumber numberWithInt:piecetype]];
 
+//NSLog(@"unitmap is %@", unitmap);
 			// check for rows to break
 			[self checkForCompletedRows];
 

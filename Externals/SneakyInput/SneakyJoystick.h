@@ -45,5 +45,9 @@
 @property (nonatomic, assign) float deadRadius;
 
 -(id)initWithRect:(CGRect)rect;
+- (BOOL)stickIsUp;
+- (BOOL)stickIsDown;
+- (BOOL)stickIsRight;
+- (BOOL)stickIsLeft;
 
 @end

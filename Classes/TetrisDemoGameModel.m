@@ -184,9 +184,60 @@
 	}
 }
 
+- (void)dropCurrentPiece {
+	// TODO
+}
+
+- (void)movePieceLeft
+{
+	if ( currentpiece.ax > 0 &&
+		currentpiece.bx > 0 &&
+		currentpiece.cx > 0 &&
+		currentpiece.dx > 0 &&
+		[self unitmapIsEmptyAtX:currentpiece.ax andY:currentpiece.ay] &&
+		[self unitmapIsEmptyAtX:currentpiece.bx andY:currentpiece.by] &&
+		[self unitmapIsEmptyAtX:currentpiece.cx andY:currentpiece.cy] &&
+		[self unitmapIsEmptyAtX:currentpiece.dx andY:currentpiece.dy] )
+	{
+		currentpiece.ax -= 1;
+		currentpiece.bx -= 1;
+		currentpiece.cx -= 1;
+		currentpiece.dx -= 1;
+	}
+}
+
+- (void)movePieceRight
+{
+	if ( currentpiece.ax < (total_columns - 1) &&
+		currentpiece.bx < (total_columns - 1) &&
+		currentpiece.cx < (total_columns - 1) &&
+		currentpiece.dx < (total_columns - 1) &&
+		[self unitmapIsEmptyAtX:currentpiece.ax andY:currentpiece.ay] &&
+		[self unitmapIsEmptyAtX:currentpiece.bx andY:currentpiece.by] &&
+		[self unitmapIsEmptyAtX:currentpiece.cx andY:currentpiece.cy] &&
+		[self unitmapIsEmptyAtX:currentpiece.dx andY:currentpiece.dy] )
+	{
+		currentpiece.ax += 1;
+		currentpiece.bx += 1;
+		currentpiece.cx += 1;
+		currentpiece.dx += 1;
+	}
+}
+
+- (void)rotatePiece {
+}
+
 
 #pragma mark -
 #pragma mark helper/conversion methods
+
+- (BOOL)unitmapIsEmptyAtX:(int)x andY:(int)y
+{
+	if ( [[unitmap objectAtIndex:y] objectAtIndex:x] == [NSNull null] ) {
+		return YES;
+	}
+	return NO;
+}
 
 - (PieceCoord)pieceCoordinatesFromPieceType:(PieceType)newType
 {
@@ -206,6 +257,8 @@
 		case PIECE_TYPE_T:
 			return PieceCoordMake(0, 0, 1, 0, 2, 0, 1, 1);
 	}
+	// default (we should never get here.)
+	return PieceCoordMake(0, 0, 1, 0, 2, 0, 3, 0);
 }
 
 

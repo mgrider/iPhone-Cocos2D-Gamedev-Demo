@@ -185,4 +185,39 @@ deadRadius;
 	[self ccTouchEnded:touch withEvent:event];
 }
 
+#pragma mark -
+#pragma mark D-Pad booleans
+
+- (BOOL)stickIsUp
+{
+	if (self.degrees == 90) {
+		return YES;
+	}
+	return NO;
+}
+- (BOOL)stickIsDown
+{
+	if (self.degrees==270) {
+		return YES;
+	}
+	return NO;
+}
+- (BOOL)stickIsRight
+{
+	if (self.degrees==0 && self.velocity.x > 0.0f) {
+		NSLog(@"stick is Right.");
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)stickIsLeft
+{
+	if (self.degrees==180) {
+		return YES;
+	}
+	return NO;
+}
+
+
 @end

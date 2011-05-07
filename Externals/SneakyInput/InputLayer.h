@@ -20,6 +20,11 @@
 	SneakyButton *rightButton;
 }
 
+
+@property (nonatomic, retain) SneakyJoystick *leftJoystick;
+@property (nonatomic, retain) SneakyButton *rightButton;
+
+
 // returns a Scene that contains the HelloWorld as the only child
 +(id) scene;
 

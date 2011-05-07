@@ -41,6 +41,21 @@
 		return;
 	}
 
+	// send input to the gameModel
+	if ( [inputLayer.leftJoystick stickIsUp] ) {
+		[gameModel dropCurrentPiece];
+	}
+	else if ( [inputLayer.leftJoystick stickIsLeft] ) {
+		[gameModel movePieceLeft];
+	}
+	else if ( [inputLayer.leftJoystick stickIsRight] ) {
+		[gameModel movePieceRight];
+	}
+	if ( [inputLayer.rightButton active] ) {
+		[gameModel rotatePiece];
+//		[inputLayer.rightButton setActive:NO];
+	}
+
 	// all important
 	[gameModel work];
 
@@ -117,6 +132,8 @@
 		case PIECE_TYPE_Z: return BLOCK_RECT_Z;
 		case PIECE_TYPE_T: return BLOCK_RECT_T;
 	}
+	// default (should never reach this)
+	return BLOCK_RECT_I;
 }
 
 

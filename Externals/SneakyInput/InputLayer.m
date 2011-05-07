@@ -15,20 +15,25 @@
 #import "SneakyButtonSkinnedBase.h"
 #import "ColoredCircleSprite.h"
 
+
 // HelloWorld implementation
 @implementation InputLayer
+
+
+@synthesize leftJoystick, rightButton;
+
 
 +(id) scene
 {
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
-	
+
 	// 'layer' is an autorelease object.
 	InputLayer *layer = [InputLayer node];
-	
+
 	// add layer as a child to scene
 	[scene addChild: layer];
-	
+
 	// return the scene
 	return scene;
 }
@@ -40,7 +45,7 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
 		self.isTouchEnabled = YES;
-		
+
 		SneakyJoystickSkinnedBase *leftJoy = [[[SneakyJoystickSkinnedBase alloc] init] autorelease];
 		leftJoy.position = ccp(100,100);
 		leftJoy.backgroundSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 0, 0, 128) radius:64];
@@ -50,7 +55,7 @@
 		leftJoy.joystick.numberOfDirections = 4;
 		leftJoystick = [leftJoy.joystick retain];
 		[self addChild:leftJoy];
-		
+
 		SneakyButtonSkinnedBase *rightBut = [[[SneakyButtonSkinnedBase alloc] init] autorelease];
 		rightBut.position = ccp(448,32);
 		rightBut.defaultSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 255, 255, 128) radius:32];
@@ -60,10 +65,10 @@
 		rightButton = [rightBut.button retain];
 		rightButton.isToggleable = NO;
 		[self addChild:rightBut];
-		
+
 		[[CCDirector sharedDirector] setAnimationInterval:1.0f/60.0f];
-		
-			//[self schedule:@selector(tick:) interval:1.0f/120.0f];
+
+		//[self schedule:@selector(tick:) interval:1.0f/120.0f];
 	}
 	return self;
 }

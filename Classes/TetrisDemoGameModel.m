@@ -106,7 +106,8 @@
 
 	if ( framecount % speed == 0 ) {
 
-		NSLog(@"found a frame.");
+		//NSLog(@"found a frame.");
+
 		// reset the framecount
 		framecount = 0;
 
@@ -120,7 +121,6 @@
 			[[unitmap objectAtIndex:currentpiece.cy + 1] objectAtIndex:(currentpiece.cx)] == [NSNull null] &&
 			[[unitmap objectAtIndex:currentpiece.dy + 1] objectAtIndex:(currentpiece.dx)] == [NSNull null] )
 		{
-			NSLog(@"curentpiece has fallen.");
 			currentpiece.ay++;
 			currentpiece.by++;
 			currentpiece.cy++;
@@ -146,16 +146,16 @@
 	}
 }
 
-- (void)checkForCompletedRows {
+- (void)checkForCompletedRows
+{
 	//keep an array of completed rows
 	NSMutableArray *completedRows = [NSMutableArray arrayWithCapacity:1];
 	BOOL completed;
 	for (int i=0; i<total_rows; i++) {
 		completed = YES;
 		for (int j=0; j<total_columns; j++) {
-			if ( [[[unitmap objectAtIndex:i] objectAtIndex:j] isEqual:[NSNull null]] ) {
+			if ( completed && [[[unitmap objectAtIndex:i] objectAtIndex:j] isEqual:[NSNull null]] ) {
 				completed = NO;
-				continue;
 			}
 		}
 		if (completed) {
@@ -165,18 +165,48 @@
 	if ( [completedRows count] > 0 ) {
 		[self updateScoreWithInt:[completedRows count]];
 	}
+	for ( NSNumber *rowNum in completedRows ) {
+		for ( int i=0; i < [rowNum intValue]; i++) {
+			int y_index = [rowNum intValue] - i;
+			int replacement_y_index = (y_index - 1);
+			for (int j=0; j<total_columns; j++) {
+				id replacementObject = [[unitmap objectAtIndex:replacement_y_index] objectAtIndex:j];
+				[[unitmap objectAtIndex:y_index] replaceObjectAtIndex:j withObject:replacementObject];
+			}
+		}
+	}
+	[self printModel];
 	NSLog(@"there were %i completed rows.", [completedRows count]);
+}
+
+- (void)printModel
+{
+	NSMutableString *modelString = [NSMutableString stringWithString:@"gameboard: \n"];
+	for (int i=0; i < total_rows; i++) {
+		for (int j=0; j < total_columns; j++) {
+			if ( [[[unitmap objectAtIndex:i] objectAtIndex:j] isKindOfClass:[NSNumber class]] ) {
+				[modelString appendFormat:@"%@,",[[[unitmap objectAtIndex:i] objectAtIndex:j] stringValue]];
+			}
+			else {
+				[modelString appendString:@"-,"];
+			}
+		}
+		[modelString appendString:@"\n"];
+	}
+	NSLog(@"%@",modelString);
 }
 
 
 #pragma mark -
 #pragma mark event based methods
 
-- (void)updateScoreWithInt:(int)new_score {
+- (void)updateScoreWithInt:(int)new_score
+{
 	self.score += (self.level * new_score * new_score);
 }
 
-- (void)checkForNewLevel {
+- (void)checkForNewLevel
+{
 	int nextlevel = self.level * self.level * 10;
 	if ( self.score >= nextlevel ) {
 		self.level++;
@@ -184,8 +214,22 @@
 	}
 }
 
-- (void)dropCurrentPiece {
-	// TODO
+- (void)dropCurrentPiece
+{
+	while ( (currentpiece.ay + 1) < total_rows &&
+		   (currentpiece.by + 1) < total_rows &&
+		   (currentpiece.cy + 1) < total_rows &&
+		   (currentpiece.dy + 1) < total_rows &&
+		   [self unitmapIsEmptyAtX:currentpiece.ax andY:(currentpiece.ay + 1)] &&
+		   [self unitmapIsEmptyAtX:currentpiece.bx andY:(currentpiece.by + 1)] &&
+		   [self unitmapIsEmptyAtX:currentpiece.cx andY:(currentpiece.cy + 1)] &&
+		   [self unitmapIsEmptyAtX:currentpiece.dx andY:(currentpiece.dy + 1)] )
+	{
+		currentpiece.ay++;
+		currentpiece.by++;
+		currentpiece.cy++;
+		currentpiece.dy++;
+	}
 }
 
 - (void)movePieceLeft
@@ -194,10 +238,10 @@
 		currentpiece.bx > 0 &&
 		currentpiece.cx > 0 &&
 		currentpiece.dx > 0 &&
-		[self unitmapIsEmptyAtX:currentpiece.ax andY:currentpiece.ay] &&
-		[self unitmapIsEmptyAtX:currentpiece.bx andY:currentpiece.by] &&
-		[self unitmapIsEmptyAtX:currentpiece.cx andY:currentpiece.cy] &&
-		[self unitmapIsEmptyAtX:currentpiece.dx andY:currentpiece.dy] )
+		[self unitmapIsEmptyAtX:(currentpiece.ax - 1) andY:currentpiece.ay] &&
+		[self unitmapIsEmptyAtX:(currentpiece.bx - 1) andY:currentpiece.by] &&
+		[self unitmapIsEmptyAtX:(currentpiece.cx - 1) andY:currentpiece.cy] &&
+		[self unitmapIsEmptyAtX:(currentpiece.dx - 1) andY:currentpiece.dy] )
 	{
 		currentpiece.ax -= 1;
 		currentpiece.bx -= 1;
@@ -212,10 +256,10 @@
 		currentpiece.bx < (total_columns - 1) &&
 		currentpiece.cx < (total_columns - 1) &&
 		currentpiece.dx < (total_columns - 1) &&
-		[self unitmapIsEmptyAtX:currentpiece.ax andY:currentpiece.ay] &&
-		[self unitmapIsEmptyAtX:currentpiece.bx andY:currentpiece.by] &&
-		[self unitmapIsEmptyAtX:currentpiece.cx andY:currentpiece.cy] &&
-		[self unitmapIsEmptyAtX:currentpiece.dx andY:currentpiece.dy] )
+		[self unitmapIsEmptyAtX:(currentpiece.ax + 1) andY:currentpiece.ay] &&
+		[self unitmapIsEmptyAtX:(currentpiece.bx + 1) andY:currentpiece.by] &&
+		[self unitmapIsEmptyAtX:(currentpiece.cx + 1) andY:currentpiece.cy] &&
+		[self unitmapIsEmptyAtX:(currentpiece.dx + 1) andY:currentpiece.dy] )
 	{
 		currentpiece.ax += 1;
 		currentpiece.bx += 1;
@@ -225,6 +269,689 @@
 }
 
 - (void)rotatePiece {
+
+	if (piecetype == PIECE_TYPE_I) // "I"
+	{
+		if (rotatedcount == 0)
+		{
+			// rotates around 2
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 2 ) andY:( currentpiece.ay - 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy + 1 )] &&
+				(currentpiece.dy + 1) < total_rows )
+			{
+				currentpiece.ax = currentpiece.ax + 2;
+				currentpiece.ay = currentpiece.ay - 2;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 1)
+		{
+			// doesn't rotate "around" -- "slides" 1 to the left
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay + 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 2 ) andY:( currentpiece.dy - 1 )] && 
+				(currentpiece.ax + 1) < (total_columns - 1) && 
+				(currentpiece.dx - 2) >= 0 )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.dx = currentpiece.dx - 2;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+			// if we're next to the right wall, lets slide over automagicallly
+			else if ( (currentpiece.ax + 1) >= (total_columns - 1) ) 
+			{
+				if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay + 2 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by + 1 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.cx - 2 ) andY:( currentpiece.cy )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.dx - 3 ) andY:( currentpiece.dy - 1 )])
+				{
+					currentpiece.ay = currentpiece.ay + 2;
+					currentpiece.bx = currentpiece.bx - 1;
+					currentpiece.by = currentpiece.by + 1;
+					currentpiece.cx = currentpiece.cx - 2;
+					currentpiece.dx = currentpiece.dx - 3;
+					currentpiece.dy = currentpiece.dy - 1;
+					rotatedcount++;
+				}
+			}
+			// right next to the left wall?
+			else if ( currentpiece.dx - 2 < 0 ) {
+				// one space away
+				if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 2 ) andY:( currentpiece.ay + 2 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by + 1 )] && 
+					[self unitmapIsEmptyAtX:currentpiece.cx andY:(currentpiece.cy)] && 
+					[self unitmapIsEmptyAtX:(currentpiece.dx - 1 ) andY:( currentpiece.dy - 1 )] &&
+					((currentpiece.dx - 1) == 0) )
+				{
+					currentpiece.ax = currentpiece.ax + 2;
+					currentpiece.ay = currentpiece.ay + 2;
+					currentpiece.bx = currentpiece.bx + 1;
+					currentpiece.by = currentpiece.by + 1;
+					currentpiece.dx = currentpiece.dx - 1;
+					currentpiece.dy = currentpiece.dy - 1;
+					rotatedcount++;
+				}
+				// two spaces
+				else if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 3 ) andY:( currentpiece.ay + 2 )] && 
+						 [self unitmapIsEmptyAtX:( currentpiece.bx + 2 ) andY:( currentpiece.by + 1 )] && 
+						 [self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy )] && 
+						 [self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy - 1 )] &&
+						 currentpiece.dx == 0 )
+				{
+					currentpiece.ax = currentpiece.ax + 3;
+					currentpiece.ay = currentpiece.ay + 2;
+					currentpiece.bx = currentpiece.bx + 2;
+					currentpiece.by = currentpiece.by + 1;
+					currentpiece.cx = currentpiece.cx + 1;
+					currentpiece.dy = currentpiece.dy - 1;
+					rotatedcount++;
+				}
+			}
+		}
+		else if (rotatedcount == 2)
+		{
+			// rotate around 1
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 2 ) andY:( currentpiece.dy - 2 )] &&
+				(currentpiece.ay + 1) < total_rows )
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dx = currentpiece.dx + 2;
+				currentpiece.dy = currentpiece.dy - 2;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 3)
+		{
+			// rotate around one, but slide to the left one
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 2 ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx ) andY:( currentpiece.cy + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy + 2 )] && 
+				(currentpiece.dx + 1) < (total_columns - 1) && 
+				(currentpiece.ax - 2) >= 0 )
+			{
+				currentpiece.ax = currentpiece.ax - 2;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy + 2;
+				rotatedcount = 0;
+			}
+			// if we're next to the right wall, lets slide over automagicallly
+			else if ( (currentpiece.dx + 1) >= (total_columns - 1) ) 
+			{
+				if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 3 ) andY:( currentpiece.ay - 1 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.bx - 2 ) andY:( currentpiece.by )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy + 1 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy + 2 )])
+				{
+					currentpiece.ax = currentpiece.ax - 3;
+					currentpiece.ay = currentpiece.ay - 1;
+					currentpiece.bx = currentpiece.bx - 2;
+					currentpiece.cx = currentpiece.cx - 1;
+					currentpiece.cy = currentpiece.cy + 1;
+					currentpiece.dy = currentpiece.dy + 2;
+					rotatedcount = 0;
+				}
+			}
+			// right next to the left wall?
+			else if ( currentpiece.ax - 2 < 0 ) {
+				// one space away
+				if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay - 1 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy + 1 )] && 
+					[self unitmapIsEmptyAtX:( currentpiece.dx + 2 ) andY:( currentpiece.dy + 2 )] &&
+					(currentpiece.ax - 1) == 0 )
+				{
+					currentpiece.ax = currentpiece.ax - 1;
+					currentpiece.ay = currentpiece.ay - 1;
+					currentpiece.cx = currentpiece.cx + 1;
+					currentpiece.cy = currentpiece.cy + 1;
+					currentpiece.dx = currentpiece.dx + 2;
+					currentpiece.dy = currentpiece.dy + 2;
+					rotatedcount = 0;
+				}
+				// two spaces
+				else if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay - 1 )] && 
+						 [self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by )] && 
+						 [self unitmapIsEmptyAtX:( currentpiece.cx + 2 ) andY:( currentpiece.cy + 1 )] && 
+						 [self unitmapIsEmptyAtX:( currentpiece.dx + 3 ) andY:( currentpiece.dy + 2 )] &&
+						 currentpiece.ax == 0 )
+				{
+					currentpiece.ay = currentpiece.ay - 1;
+					currentpiece.bx = currentpiece.bx + 1;
+					currentpiece.cx = currentpiece.cx + 2;
+					currentpiece.cy = currentpiece.cy + 1;
+					currentpiece.dx = currentpiece.dx + 3;
+					currentpiece.dy = currentpiece.dy + 2;
+					rotatedcount = 0;
+				}
+			}
+		}
+	}
+	else if (piecetype == PIECE_TYPE_J) // "J"
+	{
+		if (rotatedcount == 0)
+		{
+			// rotate around 2
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 2 ) andY:( currentpiece.dy )] )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 2;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 1)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay + 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy - 1 )] && 
+				(currentpiece.cx + 1) < total_columns )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay + 2 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by + 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx - 2 ) andY:( currentpiece.cy )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy - 1 )] && 
+					 currentpiece.cx < total_columns )
+			{
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.cx = currentpiece.cx - 2;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 2)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 2 ) andY:( currentpiece.ay )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx ) andY:( currentpiece.cy - 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy - 1 )])
+			{
+				currentpiece.ax = currentpiece.ax - 2;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.cy = currentpiece.cy - 2;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+		}
+		else
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 2 ) andY:( currentpiece.cy + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy + 2 )] && 
+				(currentpiece.dx + 1) < total_columns )
+			{
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.cx = currentpiece.cx + 2;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy + 2;
+				rotatedcount = 0;
+			}
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay - 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy + 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy + 2 )] && 
+					 currentpiece.dx < total_columns )
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dy = currentpiece.dy + 2;
+				rotatedcount = 0;
+			}
+		}
+	}
+	else if (piecetype == PIECE_TYPE_L) // "L"
+	{
+		if (rotatedcount == 0)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy - 2 )])
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dy = currentpiece.dy - 2;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 1)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay + 2 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 2 ) andY:( currentpiece.dy + 1 )] && 
+				(currentpiece.ax + 1) <= (total_columns - 1) )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.dx = currentpiece.dx + 2;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount++;
+			}
+			// if we're up against something on the right, lets check 1 space to the left
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay + 2 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by + 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx - 2 ) andY:( currentpiece.cy )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy + 1 )] )
+			{
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.cx = currentpiece.cx - 2;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 2)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 2 ) andY:( currentpiece.ay )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx ) andY:( currentpiece.cy - 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy + 1 )])
+			{
+				currentpiece.ax = currentpiece.ax - 2;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.cy = currentpiece.cy - 2;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount++;
+			}
+		}
+		else
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 2 ) andY:( currentpiece.cy + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy )] && 
+				(currentpiece.cx + 2) <= (total_columns - 1) )
+			{
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.cx = currentpiece.cx + 2;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				rotatedcount = 0;
+			}
+			// if we're up against something on the right, lets check 1 space to the left
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay - 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy + 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.dx - 2 ) andY:( currentpiece.dy )])
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 2;
+				rotatedcount = 0;
+			}
+		}
+	}
+	else if (piecetype == PIECE_TYPE_SQUARE) // "square"
+	{
+		if (rotatedcount == 0)
+		{
+			currentpiece.ax = currentpiece.ax + 1;
+			currentpiece.by = currentpiece.by - 1;
+			currentpiece.cx = currentpiece.cx - 1;
+			currentpiece.dy = currentpiece.dy + 1;
+			rotatedcount++;
+		}
+		else if (rotatedcount == 1)
+		{
+			currentpiece.ay = currentpiece.ay + 1;
+			currentpiece.bx = currentpiece.bx + 1;
+			currentpiece.cy = currentpiece.cy - 1;
+			currentpiece.dx = currentpiece.dx - 1;
+			rotatedcount++;
+		}
+		else if (rotatedcount == 2)
+		{
+			currentpiece.ax = currentpiece.ax - 1;
+			currentpiece.by = currentpiece.by + 1;
+			currentpiece.cx = currentpiece.cx + 1;
+			currentpiece.dy = currentpiece.dy - 1;
+			rotatedcount++;
+		}
+		else if (rotatedcount == 3)
+		{
+			currentpiece.ay = currentpiece.ay - 1;
+			currentpiece.bx = currentpiece.bx - 1;
+			currentpiece.cy = currentpiece.cy + 1;
+			currentpiece.dx = currentpiece.dx + 1;
+			rotatedcount = 0;
+		}
+	}
+	else if (piecetype == PIECE_TYPE_S) // "S"
+	{
+		if (rotatedcount == 0)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy + 2 )] &&
+				(currentpiece.dy + 2) < total_rows )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dy = currentpiece.dy + 2;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 1)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 2 ) andY:( currentpiece.dy )] &&
+				(currentpiece.dx - 2) >= 0 )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 2;
+				rotatedcount++;
+			}
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 2 ) andY:( currentpiece.ay + 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx ) andY:( currentpiece.cy + 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy )] &&
+					 (currentpiece.dx - 1) >= 0 )
+			{
+				currentpiece.ax = currentpiece.ax + 2;
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 2)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy - 2 )])
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dy = currentpiece.dy - 2;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 3)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 2 ) andY:( currentpiece.dy )] &&
+				(currentpiece.dx + 2) <= (total_columns - 1) )
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dx = currentpiece.dx + 2;
+				rotatedcount = 0;
+			}
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 2 ) andY:( currentpiece.ay - 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx ) andY:( currentpiece.cy - 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy )] &&
+					 (currentpiece.dx + 1) <= (total_columns - 1) )
+			{
+				currentpiece.ax = currentpiece.ax - 2;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				rotatedcount = 0;
+			}
+		}
+	}
+	else if (piecetype == PIECE_TYPE_Z)  // "Z"
+	{
+		if (rotatedcount == 0)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 2 ) andY:( currentpiece.ay )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy + 1 )] &&
+				(currentpiece.dy + 1) < total_rows )
+			{
+				currentpiece.ax = currentpiece.ax + 2;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 1)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay + 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy - 1 )] && 
+				(currentpiece.dx - 1) >= 0 )
+			{
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay + 2 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by + 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy - 1 )] && 
+					 currentpiece.dx >= 0 &&
+					 (currentpiece.ax + 1) < total_columns )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay + 2;
+				currentpiece.by = currentpiece.by + 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 2)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 2 ) andY:( currentpiece.ay )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.by - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy - 1 )])
+			{
+				currentpiece.ax = currentpiece.ax - 2;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 3)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay - 2 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy + 1 )] && 
+				(currentpiece.dx + 1) < total_columns)
+			{
+				currentpiece.ay = currentpiece.ay - 2;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount = 0;
+			}
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay - 2 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by - 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy + 1 )] &&
+					 (currentpiece.ax - 1) >= 0 )
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay - 2;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount = 0;
+			}
+		}
+	}
+	else if (piecetype == PIECE_TYPE_T) // "T"
+	{
+		if (rotatedcount == 0)
+		{
+			// rotate around 1
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy - 1 )])
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 1)
+		{
+			// rotate around 1
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax + 1 ) andY:( currentpiece.ay + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.cx - 1 ) andY:( currentpiece.cy - 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy - 1 )] &&
+				(currentpiece.ax + 1) <= (total_columns - 1) )
+			{
+				currentpiece.ax = currentpiece.ax + 1;
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.cx = currentpiece.cx - 1;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+			// if we're against the wall, check one square over
+			else if ( (currentpiece.ax + 1) > (total_columns - 1) &&
+					 [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay + 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.bx - 1 ) andY:( currentpiece.bx )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx - 2 ) andY:( currentpiece.cy - 1 )] && 
+					 [self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy - 1 )]) 
+			{
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.bx = currentpiece.bx - 1;
+				currentpiece.cx = currentpiece.cx - 2;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dy = currentpiece.dy - 1;
+				rotatedcount++;
+			}
+		}
+		else if (rotatedcount == 2)
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay + 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy + 1 )] &&
+				(currentpiece.ay + 1) < total_rows )
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay + 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy - 1;
+				currentpiece.dx = currentpiece.dx + 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount++;
+			}
+			// if it fits one square up try that
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.bx ) andY:( currentpiece.by - 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy - 2 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.dx + 1 ) andY:( currentpiece.dy )]) 
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.by = currentpiece.by - 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy - 2;
+				currentpiece.dx = currentpiece.dx + 1;
+				rotatedcount++;
+			}
+		}
+		else
+		{
+			if ( [self unitmapIsEmptyAtX:( currentpiece.ax - 1 ) andY:( currentpiece.ay - 1 )] &&
+				[self unitmapIsEmptyAtX:( currentpiece.cx + 1 ) andY:( currentpiece.cy + 1 )] && 
+				[self unitmapIsEmptyAtX:( currentpiece.dx - 1 ) andY:( currentpiece.dy + 1 )] && 
+				(currentpiece.ax - 1) >= 0 )
+			{
+				currentpiece.ax = currentpiece.ax - 1;
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.cx = currentpiece.cx + 1;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dx = currentpiece.dx - 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount = 0;
+			}
+			// try one to the right
+			else if ( [self unitmapIsEmptyAtX:( currentpiece.ax ) andY:( currentpiece.ay - 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.bx + 1 ) andY:( currentpiece.by )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.cx + 2 ) andY:( currentpiece.cy + 1 )] &&
+					 [self unitmapIsEmptyAtX:( currentpiece.dx ) andY:( currentpiece.dy + 1 )])
+			{
+				currentpiece.ay = currentpiece.ay - 1;
+				currentpiece.bx = currentpiece.bx + 1;
+				currentpiece.cx = currentpiece.cx + 2;
+				currentpiece.cy = currentpiece.cy + 1;
+				currentpiece.dy = currentpiece.dy + 1;
+				rotatedcount = 0;
+			}
+		}
+	}
+	
 }
 
 

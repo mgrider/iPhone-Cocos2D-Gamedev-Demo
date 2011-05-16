@@ -28,7 +28,7 @@
 
 // TetrisDemoLayer implementation
 @implementation TetrisDemoLayer
-@synthesize gameModel, blockSheet, previous_current_piecetype;
+@synthesize gameModel, blockSheet, previous_current_piecetype, inputLayer;
 
 
 #pragma mark -
@@ -42,19 +42,22 @@
 	}
 
 	// send input to the gameModel
-	if ( [inputLayer.leftJoystick stickIsUp] ) {
-		[gameModel dropCurrentPiece];
-	}
-	else if ( [inputLayer.leftJoystick stickIsLeft] ) {
-		[gameModel movePieceLeft];
-	}
-	else if ( [inputLayer.leftJoystick stickIsRight] ) {
-		[gameModel movePieceRight];
-	}
-	if ( [inputLayer.rightButton active] ) {
-		[gameModel rotatePiece];
+	// sometimes referred to as "polling"
+	// the reason this is a bad idea here is that we end up doing this 60x per second, so with the 
+	// button, for example, we usually end up rotating far more than one time per button press!
+//	if ( [(SneakyJoystick*)inputLayer.leftJoystick stickIsUp] ) {
+//		[gameModel dropCurrentPiece];
+//	}
+//	else if ( [(SneakyJoystick*)inputLayer.leftJoystick stickIsLeft] ) {
+//		[gameModel movePieceLeft];
+//	}
+//	else if ( [(SneakyJoystick*)inputLayer.leftJoystick stickIsRight] ) {
+//		[gameModel movePieceRight];
+//	}
+//	if ( [(SneakyButton*)inputLayer.rightButton active] ) {
+//		[gameModel rotatePiece];
 //		[inputLayer.rightButton setActive:NO];
-	}
+//	}
 
 	// all important
 	[gameModel work];
@@ -84,11 +87,14 @@
 	for ( int i=0; i<[gameModel total_rows]; i++ ) {
 		row = [[gameModel unitmap] objectAtIndex:i];
 		for ( int j=0; j<[gameModel total_columns]; j++ ) {
+			thistag = (i*BLOCK_TAG_Y_OFFSET) + j;
+			sprite = (CCSprite*)[blockSheet getChildByTag:thistag];
 			if ( [[row objectAtIndex:j] isKindOfClass:[NSNumber class]] ) {
 				type = [(NSNumber*)[row objectAtIndex:j] intValue];
-				thistag = (i*BLOCK_TAG_Y_OFFSET) + j;
-				sprite = (CCSprite*)[blockSheet getChildByTag:thistag];
 				[sprite setTextureRect:[self pieceRectForType:PieceTypeFromInt(type)]];
+			}
+			else {
+				[sprite setTextureRect:[self pieceRectForType:PIECE_TYPE_NONE]];
 			}
 		}
 	}
@@ -119,6 +125,62 @@
 
 
 #pragma mark -
+#pragma mark sneaky delegate methods
+
+- (void)sneakyButtonPressed
+{
+	[self rotatePieceRight];
+}
+
+- (void)sneakyJoystickUp
+{
+	[self dropCurrentPiece];
+}
+
+- (void)sneakyJoystickLeft
+{
+	[self movePieceLeft];
+}
+
+- (void)sneakyJoystickRight
+{
+	[self movePieceRight];
+}
+
+
+#pragma mark -
+#pragma mark model event interactions
+
+- (void)dropCurrentPiece
+{
+	[gameModel dropCurrentPiece];
+}
+
+- (void)movePieceLeft
+{
+	[gameModel movePieceLeft];
+}
+
+- (void)movePieceRight
+{
+	[gameModel movePieceRight];
+}
+
+- (void)rotatePieceRight
+{
+	[gameModel rotatePiece];
+}
+
+- (void)rotatePieceLeft 
+{
+	[gameModel rotatePiece];
+	[gameModel rotatePiece];
+	[gameModel rotatePiece];
+}
+
+
+
+#pragma mark -
 #pragma mark utilities
 
 - (CGRect)pieceRectForType:(PieceType)type
@@ -131,6 +193,7 @@
 		case PIECE_TYPE_S: return BLOCK_RECT_S;
 		case PIECE_TYPE_Z: return BLOCK_RECT_Z;
 		case PIECE_TYPE_T: return BLOCK_RECT_T;
+		case PIECE_TYPE_NONE: return BLOCK_RECT_NONE;
 	}
 	// default (should never reach this)
 	return BLOCK_RECT_I;
@@ -215,7 +278,9 @@
 		[self addChild:gameOverLabel2];
 
 		// add the input layer
-		inputLayer = [[InputLayer node] retain];
+		self.inputLayer = [InputLayer node];
+//		[[(SneakyButton*)inputLayer rightButton] setDelegate:self];
+		[inputLayer setControllerLayer:self];
 		[self addChild:inputLayer];
 
 		// actually start the game

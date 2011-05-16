@@ -16,7 +16,8 @@ typedef enum {
 	PIECE_TYPE_SQUARE,
 	PIECE_TYPE_S,
 	PIECE_TYPE_Z,
-	PIECE_TYPE_T
+	PIECE_TYPE_T,
+	PIECE_TYPE_NONE
 } PieceType;
 CG_INLINE PieceType PieceTypeFromInt(int pInt)
 {
@@ -104,6 +105,7 @@ CG_INLINE PieceCoord PieceCoordMake(int ax, int ay, int bx, int by, int cx, int 
 - (void)gameOver;
 - (void)work;
 - (void)checkForCompletedRows;
+- (void)printModel;
 - (void)updateScoreWithInt:(int)new_score;
 - (void)checkForNewLevel;
 - (void)dropCurrentPiece;

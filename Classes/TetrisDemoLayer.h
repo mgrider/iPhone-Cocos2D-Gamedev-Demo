@@ -13,10 +13,12 @@
 
 #include "TetrisDemoGameModel.h"
 #include "InputLayer.h"
+#include "SneakyButton.h"
+#include "SneakyJoystick.h"
 
 
 // TetrisDemoLayer
-@interface TetrisDemoLayer : CCLayer
+@interface TetrisDemoLayer : CCLayer <SneakyButtonDelegate, SneakyJoystickDPadDelegate>
 {
 	TetrisDemoGameModel *gameModel;
 	CCLabelTTF *levelLabel;
@@ -38,16 +40,24 @@
 @property (nonatomic, retain) CCSpriteBatchNode *blockSheet;
 @property (nonatomic, retain) TetrisDemoGameModel *gameModel;
 @property (nonatomic, assign) PieceType previous_current_piecetype;
+@property (nonatomic, retain) InputLayer *inputLayer;
 
-
-// returns a CCScene that contains the TetrisDemoLayer as the only child
-+(CCScene *)scene;
 
 - (void)startGame;
 - (void)drawGameOver;
 - (void)drawUnits;
 - (void)drawCurrentPiece;
 - (CGRect)pieceRectForType:(PieceType)type;
+
+// returns a CCScene that contains the TetrisDemoLayer as the only child
++(CCScene *)scene;
+
+// model interactions
+- (void)dropCurrentPiece;
+- (void)movePieceLeft;
+- (void)movePieceRight;
+- (void)rotatePieceRight;
+- (void)rotatePieceLeft;
 
 
 @end

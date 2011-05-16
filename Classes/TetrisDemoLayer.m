@@ -61,7 +61,10 @@
 
 	// all important
 	[gameModel work];
+}
 
+- (void)draw
+{
 	// update display
 	[levelLabel setString:[NSString stringWithFormat:@"Level: %i", [gameModel level]]];
 	[scoreLabel setString:[NSString stringWithFormat:@"Score: %i", [gameModel score]]];

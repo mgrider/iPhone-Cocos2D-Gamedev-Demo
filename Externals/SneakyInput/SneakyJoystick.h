@@ -13,6 +13,18 @@
 
 #import "cocos2d.h"
 
+@protocol SneakyJoystickDPadDelegate
+
+@optional
+
+- (void)sneakyJoystickUp;
+- (void)sneakyJoystickDown;
+- (void)sneakyJoystickLeft;
+- (void)sneakyJoystickRight;
+
+@end
+
+
 @interface SneakyJoystick : CCNode <CCTargetedTouchDelegate> {
 	CGPoint stickPosition;
 	float degrees;
@@ -30,6 +42,8 @@
 	float joystickRadiusSq;
 	float thumbRadiusSq;
 	float deadRadiusSq;
+	
+	id<SneakyJoystickDPadDelegate> delegate;
 }
 
 @property (nonatomic, readonly) CGPoint stickPosition;
@@ -43,6 +57,7 @@
 @property (nonatomic, assign) float joystickRadius;
 @property (nonatomic, assign) float thumbRadius;
 @property (nonatomic, assign) float deadRadius;
+@property (nonatomic, retain) id<SneakyJoystickDPadDelegate> delegate;
 
 -(id)initWithRect:(CGRect)rect;
 - (BOOL)stickIsUp;

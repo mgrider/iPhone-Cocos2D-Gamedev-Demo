@@ -10,7 +10,7 @@
 
 @implementation SneakyButton
 
-@synthesize status, value, active, isHoldable, isToggleable, rateLimit, radius;
+@synthesize status, value, active, isHoldable, isToggleable, rateLimit, radius, delegate;
 
 - (void) onEnterTransitionDidFinish
 {
@@ -74,10 +74,13 @@
 			}
 			if (isHoldable) value = 1;
 			if (isToggleable) value = !value;
+			if ( delegate && [delegate respondsToSelector:@selector(sneakyButtonPressed)] ) {
+				[delegate sneakyButtonPressed];
+			}
 			return YES;
 		}
 	}
-return NO;
+	return NO;
 }
 
 - (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event

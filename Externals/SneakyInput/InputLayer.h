@@ -12,20 +12,29 @@
 
 @class SneakyJoystick;
 @class SneakyButton;
+@class TetrisDemoLayer;
 
 // HelloWorld Layer
-@interface InputLayer : CCLayer
+@interface InputLayer : CCLayer <CCTargetedTouchDelegate>
 {
+	CGPoint touchStartPoint;
+	CGPoint touchComparePoint;
+	TetrisDemoLayer *controllerLayer;
+
 	SneakyJoystick *leftJoystick;
 	SneakyButton *rightButton;
 }
 
 
+@property (nonatomic) CGPoint touchStartPoint;
+@property (nonatomic) CGPoint touchComparePoint;
+@property (nonatomic, retain) TetrisDemoLayer *controllerLayer;
 @property (nonatomic, retain) SneakyJoystick *leftJoystick;
 @property (nonatomic, retain) SneakyButton *rightButton;
 
 
 // returns a Scene that contains the HelloWorld as the only child
 +(id) scene;
+
 
 @end

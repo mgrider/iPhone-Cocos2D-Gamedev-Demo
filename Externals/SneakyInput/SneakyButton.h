@@ -8,6 +8,17 @@
 
 #import "cocos2d.h"
 
+
+@protocol SneakyButtonDelegate
+
+@optional
+
+- (void)sneakyButtonPressed;
+
+@end
+
+
+
 @interface SneakyButton : CCNode <CCTargetedTouchDelegate> {
 	CGPoint center;
 	
@@ -21,6 +32,8 @@
 	BOOL isHoldable;
 	BOOL isToggleable;
 	float rateLimit;
+	
+	id<SneakyButtonDelegate> delegate;
 }
 
 @property (nonatomic, assign) BOOL status;
@@ -29,6 +42,7 @@
 @property (nonatomic, assign) BOOL isHoldable;
 @property (nonatomic, assign) BOOL isToggleable;
 @property (nonatomic, assign) float rateLimit;
+@property (nonatomic, retain) id<SneakyButtonDelegate> delegate;
 
 //Optimizations (keep Squared values of all radii for faster calculations) (updated internally when changing radii)
 @property (nonatomic, assign) float radius;

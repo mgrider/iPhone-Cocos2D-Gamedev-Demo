@@ -14,14 +14,84 @@
 #import "SneakyButton.h"
 #import "SneakyButtonSkinnedBase.h"
 #import "ColoredCircleSprite.h"
+#import "TetrisDemoLayer.h"
+
+
+#define TOUCH_OFFSET_BEFORE_MOVE 20.0f
 
 
 // HelloWorld implementation
 @implementation InputLayer
 
 
-@synthesize leftJoystick, rightButton;
+@synthesize touchStartPoint, touchComparePoint, controllerLayer, leftJoystick, rightButton;
 
+
+#pragma mark Touch Delegate
+
+- (void) onEnterTransitionDidFinish
+{
+	[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:1 swallowsTouches:YES];
+}
+
+- (void) onExit
+{
+	[[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
+}
+
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	CGPoint location = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+	self.touchStartPoint = [self convertToNodeSpace:location];
+	self.touchComparePoint = self.touchStartPoint;
+	NSLog(@"lcoation is %@ and startComparePoint is %@", NSStringFromCGPoint(location), NSStringFromCGPoint(touchStartPoint));
+	return YES;
+//    return CGRectContainsPoint([self boundingBox], self.touchStartPoint);
+}
+
+- (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	CGPoint location = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+	location = [self convertToNodeSpace:location];
+
+	if ( location.x >= (touchComparePoint.x + TOUCH_OFFSET_BEFORE_MOVE) ) {
+		[controllerLayer movePieceRight];
+		self.touchComparePoint = location;
+	}
+	else if ( location.x <= (touchComparePoint.x - TOUCH_OFFSET_BEFORE_MOVE) ) {
+		[controllerLayer movePieceLeft];
+		self.touchComparePoint = location;
+	}
+	else if ( location.y <= (touchComparePoint.y - TOUCH_OFFSET_BEFORE_MOVE) ) {
+		// TODO: untested
+		[controllerLayer dropCurrentPiece];
+		self.touchComparePoint = location;
+	}
+}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	CGPoint location = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+	location = [self convertToNodeSpace:location];
+
+	int maxOffset = 10.0f;
+
+	if (location.x > (touchStartPoint.x + maxOffset) || location.x < (touchStartPoint.x - maxOffset) ||
+		location.y > (touchStartPoint.y + maxOffset) || location.y < (touchStartPoint.y - maxOffset) ) {
+		NSLog(@"lcoation is %@ and touchStartPoint is %@", NSStringFromCGPoint(location), NSStringFromCGPoint(touchStartPoint));
+		return;
+	}
+
+	if ( location.x > 0 ) {
+		[controllerLayer rotatePieceRight];
+	}
+	else if ( location.x < 0 ) {
+		[controllerLayer rotatePieceLeft];
+	}
+}
+
+
+#pragma mark - other stuff
 
 +(id) scene
 {
@@ -45,7 +115,7 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
 		self.isTouchEnabled = YES;
-
+/*  -- just using standard touches for now... --
 		SneakyJoystickSkinnedBase *leftJoy = [[[SneakyJoystickSkinnedBase alloc] init] autorelease];
 		leftJoy.position = ccp(100,100);
 		leftJoy.backgroundSprite = [ColoredCircleSprite circleWithColor:ccc4(255, 0, 0, 128) radius:64];
@@ -65,7 +135,7 @@
 		rightButton = [rightBut.button retain];
 		rightButton.isToggleable = NO;
 		[self addChild:rightBut];
-
+*/
 		[[CCDirector sharedDirector] setAnimationInterval:1.0f/60.0f];
 
 		//[self schedule:@selector(tick:) interval:1.0f/120.0f];
